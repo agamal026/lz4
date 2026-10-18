@@ -1,0 +1,30 @@
+mkdir -p cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/.
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4file.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4file.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4file.d -c ../lib/lz4file.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4file.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4.d -c ../lib/lz4.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4frame.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4frame.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4frame.d -c ../lib/lz4frame.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4frame.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4hc.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4hc.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4hc.d -c ../lib/lz4hc.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4hc.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/xxhash.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/xxhash.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/xxhash.d -c ../lib/xxhash.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/xxhash.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/bench.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/bench.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/bench.d -c bench.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/bench.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lorem.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lorem.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lorem.d -c lorem.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lorem.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4cli.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4cli.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4cli.d -c lz4cli.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4cli.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4io.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4io.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4io.d -c lz4io.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4io.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/threadpool.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/threadpool.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/threadpool.d -c threadpool.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/threadpool.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/timefn.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/timefn.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/timefn.d -c timefn.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/timefn.o
+CC cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/util.o
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror -MT cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/util.o -MMD -MP -MF cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/util.d -c util.c -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/util.o
+LD cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4
+gcc -fsanitize=thread -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O1 -g -Werror cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4file.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4frame.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4hc.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/xxhash.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/bench.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lorem.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4cli.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4io.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/threadpool.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/timefn.o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/util.o -o cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4 -pthread 
+echo "==> built with multithreading support"
+==> built with multithreading support
+ln -sf cachedObjs/f9e88f8f30ac6b2ee191f9e16bf0531d/lz4 lz4

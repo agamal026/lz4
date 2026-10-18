@@ -1,0 +1,38 @@
+Decompressed : 8 MiB  ==================
+WARNING: ThreadSanitizer: data race (pid=117)
+  Write of size 8 at 0x7ffdb946c280 by thread T1:
+    #0 LZ4IO_decompressBlockLegacy <upstream-base-checkout>/programs/lz4io.c:1817 (lz4+0x390a4) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #1 TPool_thread <upstream-base-checkout>/programs/threadpool.c:350 (lz4+0x46092) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+
+  Previous read of size 8 at 0x7ffdb946c280 by thread T2:
+    #0 LZ4IO_writeDecodedChunk <upstream-base-checkout>/programs/lz4io.c:1793 (lz4+0x37dd9) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #1 TPool_thread <upstream-base-checkout>/programs/threadpool.c:350 (lz4+0x46092) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+
+  Location is stack of main thread.
+
+  Location is global '<null>' at 0x000000000000 ([stack]+0x1f280)
+
+  Thread T1 (tid=119, running) created by main thread at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1022 (libtsan.so.2+0x5ac1a) (BuildId: 2a13a7710e361d06f7babbea53065ca2be93f738)
+    #1 TPool_create <upstream-base-checkout>/programs/threadpool.c:307 (lz4+0x4639d) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #2 LZ4IO_decodeLegacyStream <upstream-base-checkout>/programs/lz4io.c:1843 (lz4+0x3b254) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #3 selectDecoder <upstream-base-checkout>/programs/lz4io.c:2467 (lz4+0x3b254)
+    #4 LZ4IO_decompressSrcFile <upstream-base-checkout>/programs/lz4io.c:2518 (lz4+0x3b254)
+    #5 LZ4IO_decompressDstFile <upstream-base-checkout>/programs/lz4io.c:2559 (lz4+0x3ec9b) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #6 LZ4IO_decompressFilename <upstream-base-checkout>/programs/lz4io.c:2586 (lz4+0x43906) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #7 main <upstream-base-checkout>/programs/lz4cli.c:853 (lz4+0x347d7) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+
+  Thread T2 (tid=120, running) created by main thread at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1022 (libtsan.so.2+0x5ac1a) (BuildId: 2a13a7710e361d06f7babbea53065ca2be93f738)
+    #1 TPool_create <upstream-base-checkout>/programs/threadpool.c:307 (lz4+0x4639d) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #2 LZ4IO_decodeLegacyStream <upstream-base-checkout>/programs/lz4io.c:1844 (lz4+0x3b26b) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #3 selectDecoder <upstream-base-checkout>/programs/lz4io.c:2467 (lz4+0x3b26b)
+    #4 LZ4IO_decompressSrcFile <upstream-base-checkout>/programs/lz4io.c:2518 (lz4+0x3b26b)
+    #5 LZ4IO_decompressDstFile <upstream-base-checkout>/programs/lz4io.c:2559 (lz4+0x3ec9b) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #6 LZ4IO_decompressFilename <upstream-base-checkout>/programs/lz4io.c:2586 (lz4+0x43906) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+    #7 main <upstream-base-checkout>/programs/lz4cli.c:853 (lz4+0x347d7) (BuildId: 70b6b0cb8159544973cda6e47434dd7648482be9)
+
+SUMMARY: ThreadSanitizer: data race <upstream-base-checkout>/programs/lz4io.c:1817 in LZ4IO_decompressBlockLegacy
+==================
+Decompressed : 16 MiB  Decompressed : 24 MiB                                                                                 /workspace/scratch/908a08b1406 : decoded 27262976 bytes 
+ThreadSanitizer: reported 1 warnings

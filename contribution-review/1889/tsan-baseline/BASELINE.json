@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "upstream_base": "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+  "submitted_source": "f83be8241c6042a0f9b500da927f68caa905fc92",
+  "baseline_checkout_clean": true,
+  "platform": "Linux x86-64",
+  "compiler": "GCC 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
+  "source_change": "none",
+  "fixture_description": "25 MiB datagen seed 4 plus 1 MiB P100, compressed in legacy format without a zero end marker by the unchanged submitted-source normal binary. Fixture and executables are not published.",
+  "fixtures": {
+    "legacy-26MiB.raw": {
+      "bytes": 27262976,
+      "sha256": "1bbb1b3830fc939c6be858abeec578f9e71d32018825ab016deb7193fb888dbc"
+    },
+    "legacy-26MiB.lz4": {
+      "bytes": 12305415,
+      "sha256": "3e5da4ba8f8934c71bafee2299c6c489c2e6eae928fdd2a83ea6825319a7be2c"
+    }
+  },
+  "baseline_binary_sha256": "94efe00a6945f4ef10d0a5769abc5cd76cada0baa03db847b06d1e3e7df3a45e",
+  "commands": [
+    {
+      "name": "baseline-tsan-build",
+      "argv": [
+        "make",
+        "-C",
+        "programs",
+        "--no-print-directory",
+        "-j2",
+        "lz4",
+        "CC=gcc",
+        "V=1",
+        "CFLAGS=-O1 -g -Werror"
+      ],
+      "cwd": "<upstream-base-checkout>",
+      "started_at": "2026-10-18T13:41:37.853163+00:00",
+      "finished_at": "2026-10-18T13:41:41.948217+00:00",
+      "exit_code": 0,
+      "log": "baseline-tsan-build.log",
+      "environment_overrides": {
+        "CPPFLAGS": "-fsanitize=thread"
+      },
+      "original_log_sha256": "b6b74e1305447940fe4c20441892b665f987d514eb49a864e55d2af1f4b456b3",
+      "published_log_sha256": "b6b74e1305447940fe4c20441892b665f987d514eb49a864e55d2af1f4b456b3",
+      "normalization": "Only absolute checkout/evidence/workspace prefixes are replaced."
+    },
+    {
+      "name": "fixture-compression",
+      "argv": [
+        "<submitted-source-checkout>/programs/lz4",
+        "-l",
+        "-f",
+        "<evidence>/legacy-26MiB.raw",
+        "<evidence>/legacy-26MiB.lz4"
+      ],
+      "cwd": "<evidence>",
+      "started_at": "2026-10-18T13:41:42.018541+00:00",
+      "finished_at": "2026-10-18T13:41:42.076060+00:00",
+      "exit_code": 0,
+      "log": "fixture-compression.log",
+      "original_log_sha256": "30bfd0d80a40f7b70975ad411bf5237b2e954a977ba1dff74a8e740bd66dd79f",
+      "published_log_sha256": "30bfd0d80a40f7b70975ad411bf5237b2e954a977ba1dff74a8e740bd66dd79f",
+      "normalization": "Only absolute checkout/evidence/workspace prefixes are replaced."
+    },
+    {
+      "name": "baseline-tsan-decode",
+      "argv": [
+        "<upstream-base-checkout>/programs/lz4",
+        "-d",
+        "-f",
+        "<evidence>/legacy-26MiB.lz4",
+        "<evidence>/legacy-26MiB-decoded.raw"
+      ],
+      "cwd": "<evidence>",
+      "started_at": "2026-10-18T13:41:42.076499+00:00",
+      "finished_at": "2026-10-18T13:41:44.198913+00:00",
+      "exit_code": 66,
+      "log": "baseline-tsan-decode.log",
+      "original_log_sha256": "77cf048e2ad71fa2ba0adf83d34e90e3276a636bf415eb259753099ce5fb9462",
+      "published_log_sha256": "fe1688cd6379a5d3b5d7df206d6e6f3bced95cbd8919462708300c522bb61fb5",
+      "normalization": "Only absolute checkout/evidence/workspace prefixes are replaced."
+    }
+  ],
+  "outcome": "Build exit 0; unchanged-upstream legacy decode exit 66 with the same stream-size race between LZ4IO_decompressBlockLegacy and LZ4IO_writeDecodedChunk. The successful decode still produced 27262976 bytes before TSan reported one warning. No fix or passing sanitizer result is established by this baseline packet."
+}
