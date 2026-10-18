@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "source_commit": "0917e70420429ea2acab6aaac48cffdf4e827440",
+  "source_tree": "26cbd5018554777b0b36efd53e76616d9e006b1d",
+  "parent_source": "f83be8241c6042a0f9b500da927f68caa905fc92",
+  "upstream_base": "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+  "changed_files": [
+    {
+      "path": "programs/lz4io.c",
+      "git_blob": "64953a23bf10a09259b5d854d1c1c01a2cd9c69d",
+      "sha256": "47f8169a9883ab1155d6783d4c09979b4b2edd822299f6c5cbaa376bf35c7f42"
+    }
+  ],
+  "unchanged_regression_blob": "98c4a91c3430d556f7fa3e1151b5960ceaa7e19e",
+  "platform": "Linux x86-64",
+  "compiler": "GCC 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
+  "baseline_evidence": "https://github.com/agamal026/lz4/blob/a7f764a75f381654296c2d6e55d9c89478c21400/contribution-review/1889/tsan-baseline/README.md",
+  "commands": [
+    {
+      "name": "final-tsan-build",
+      "argv": [
+        "make",
+        "-C",
+        "programs",
+        "--no-print-directory",
+        "-j2",
+        "lz4",
+        "CC=gcc",
+        "V=1",
+        "CFLAGS=-O1 -g -Werror"
+      ],
+      "cwd": "<source-checkout>",
+      "started_at": "2026-10-18T13:53:09.730460+00:00",
+      "finished_at": "2026-10-18T13:53:14.118662+00:00",
+      "exit_code": 0,
+      "log": "final-tsan-build.log",
+      "environment_overrides": {
+        "CPPFLAGS": "-fsanitize=thread"
+      },
+      "original_log_sha256": "eb15c02403151b815fa01be3b02d228f69a39c1e09d40077446e1bb5dd7de329",
+      "published_log_sha256": "eb15c02403151b815fa01be3b02d228f69a39c1e09d40077446e1bb5dd7de329"
+    },
+    {
+      "name": "final-tsan-decode",
+      "argv": [
+        "<evidence>/tsan-bin/lz4",
+        "-d",
+        "-f",
+        "<evidence>/legacy-26MiB.lz4",
+        "<evidence>/legacy-26MiB-fixed.raw"
+      ],
+      "cwd": "<evidence>",
+      "started_at": "2026-10-18T13:53:14.122761+00:00",
+      "finished_at": "2026-10-18T13:53:15.710509+00:00",
+      "exit_code": 0,
+      "log": "final-tsan-decode.log",
+      "environment_overrides": {},
+      "original_log_sha256": "1ad3ddda20d882602ea27693989e85b606187b35befac44ceeccaaab4646eac9",
+      "published_log_sha256": "dd6e45f44a304697e17d4813c1741bac517362f48f223aa3d8e1ae50d26e3dae"
+    },
+    {
+      "name": "final-tsan-decode-cmp",
+      "argv": [
+        "cmp",
+        "<evidence>/legacy-26MiB.raw",
+        "<evidence>/legacy-26MiB-fixed.raw"
+      ],
+      "cwd": "<evidence>",
+      "started_at": "2026-10-18T13:53:15.711000+00:00",
+      "finished_at": "2026-10-18T13:53:15.740828+00:00",
+      "exit_code": 0,
+      "log": "final-tsan-decode-cmp.log",
+      "environment_overrides": {},
+      "original_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "final-tsan-legacy-regression",
+      "argv": [
+        "sh",
+        "test-lz4-multiple-legacy.sh"
+      ],
+      "cwd": "<source-checkout>/tests",
+      "started_at": "2026-10-18T13:53:15.741431+00:00",
+      "finished_at": "2026-10-18T13:53:41.512154+00:00",
+      "exit_code": 0,
+      "log": "final-tsan-legacy-regression.log",
+      "environment_overrides": {
+        "LZ4_NBWORKERS": "2"
+      },
+      "original_log_sha256": "e856e40ab9cdd24568c3d1b2e9833b539fa9f9c50c3ce4604d5898fba1701f2d",
+      "published_log_sha256": "e856e40ab9cdd24568c3d1b2e9833b539fa9f9c50c3ce4604d5898fba1701f2d",
+      "executable_selection": "Saved tsan executable named lz4 first on PATH, followed by source-checkout/tests for the unchanged normal datagen."
+    },
+    {
+      "name": "final-normal-build",
+      "argv": [
+        "make",
+        "-C",
+        "programs",
+        "--no-print-directory",
+        "-j2",
+        "lz4",
+        "lz4-nomt",
+        "CC=gcc",
+        "V=1",
+        "CFLAGS=-O2 -Werror"
+      ],
+      "cwd": "<source-checkout>",
+      "started_at": "2026-10-18T13:53:41.512661+00:00",
+      "finished_at": "2026-10-18T13:53:49.241534+00:00",
+      "exit_code": 0,
+      "log": "final-normal-build.log",
+      "environment_overrides": {},
+      "original_log_sha256": "43a8239e40a03f77179f7eb8a247ac2cb21f13191fdf30ed022e6474f26f1ce4",
+      "published_log_sha256": "43a8239e40a03f77179f7eb8a247ac2cb21f13191fdf30ed022e6474f26f1ce4"
+    },
+    {
+      "name": "final-mt-legacy-regression",
+      "argv": [
+        "sh",
+        "test-lz4-multiple-legacy.sh"
+      ],
+      "cwd": "<source-checkout>/tests",
+      "started_at": "2026-10-18T13:53:49.242888+00:00",
+      "finished_at": "2026-10-18T13:53:50.108154+00:00",
+      "exit_code": 0,
+      "log": "final-mt-legacy-regression.log",
+      "environment_overrides": {
+        "LZ4_NBWORKERS": "2"
+      },
+      "original_log_sha256": "dcf9a2e28dd8442193c487af57e3c814945f933b00976ad18f806a65a78bf54d",
+      "published_log_sha256": "dcf9a2e28dd8442193c487af57e3c814945f933b00976ad18f806a65a78bf54d",
+      "executable_selection": "Saved mt executable named lz4 first on PATH, followed by source-checkout/tests for the unchanged normal datagen."
+    },
+    {
+      "name": "final-nomt-legacy-regression",
+      "argv": [
+        "sh",
+        "test-lz4-multiple-legacy.sh"
+      ],
+      "cwd": "<source-checkout>/tests",
+      "started_at": "2026-10-18T13:53:50.109404+00:00",
+      "finished_at": "2026-10-18T13:53:50.840895+00:00",
+      "exit_code": 0,
+      "log": "final-nomt-legacy-regression.log",
+      "environment_overrides": {},
+      "original_log_sha256": "930ad6c91ce852dc79b047631201220233ed1e1e5264ce68ac8c231a8b5c9a11",
+      "published_log_sha256": "930ad6c91ce852dc79b047631201220233ed1e1e5264ce68ac8c231a8b5c9a11",
+      "executable_selection": "Saved nomt executable named lz4 first on PATH, followed by source-checkout/tests for the unchanged normal datagen."
+    },
+    {
+      "name": "final-diff-check",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "<source-checkout>",
+      "started_at": "2026-10-18T13:53:50.841510+00:00",
+      "finished_at": "2026-10-18T13:53:50.855016+00:00",
+      "exit_code": 0,
+      "log": "final-diff-check.log",
+      "environment_overrides": {},
+      "original_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "binaries": {
+    "tsan": "5c2663464564b5d1d457e021db7221eb36be7ee39630b3a4f0a1bb2cf438a684",
+    "mt": "e2a79ad919c9e5d8be1381b3317738deebae37d0bebb382b202a17bd01b96afa",
+    "nomt": "cbf3bd2865fb65b811e2cb09efdc48d9d9a5474d418cc36cd2f0e743e84f73d8"
+  },
+  "review": {
+    "kind": "independent automated source review",
+    "file": "AUTOMATED_REVIEW.md",
+    "sha256": "745b6ea960e670890d7becc0698ce973407935a931f7e8ed905394f4d810a533",
+    "result": "No required source correction found; exact source bytes reconciled. Reviewer did not run tests or audit logs."
+  },
+  "upstream_failed_job": {
+    "url": "https://github.com/lz4/lz4/actions/runs/39130134533/job/117683433807",
+    "observed_source": "f83be8241c6042a0f9b500da927f68caa905fc92",
+    "raw_log_archive_member": "upstream-failed-tsan.log",
+    "raw_log_sha256": "1efe907904adbe8c9dc58b9ca162260ac8d046d9694bc4726bf10852a9da8532",
+    "log_normalized": false
+  },
+  "normalization": "Local logs and portable command receipt replace only explicit absolute source/evidence/workspace prefixes, including the CLI-truncated display prefix. Original and published log hashes are separate. Upstream failed log is unmodified.",
+  "limits": [
+    "No new hosted result for corrected source is established by this local validation packet.",
+    "The prior GCC broader CLI failure at test-lz4-blocksize was reproduced on unchanged source and is not rerun or described as passing here.",
+    "Listing code and the regression script are unchanged; listing assertions run within each full legacy regression.",
+    "No whole-program race-freedom claim, human review, upstream acceptance, reward eligibility or realized benefit is established."
+  ]
+}
