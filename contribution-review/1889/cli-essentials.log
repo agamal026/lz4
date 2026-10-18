@@ -1,0 +1,1202 @@
+make[1]: Entering directory '<checkout>/programs'
+CC cachedObjs/9f5067099515114286ddb747ef86c5ae/datagen.o
+CC cachedObjs/9f5067099515114286ddb747ef86c5ae/lorem.o
+make[1]: Leaving directory '<checkout>/programs'
+CC cachedObjs/9f5067099515114286ddb747ef86c5ae/loremOut.o
+CC cachedObjs/9f5067099515114286ddb747ef86c5ae/datagencli.o
+CC cachedObjs/eb1b976cffd50ad270651a15d91a33f2/lz4hc.o
+CC cachedObjs/eb1b976cffd50ad270651a15d91a33f2/lz4.o
+CC cachedObjs/eb1b976cffd50ad270651a15d91a33f2/xxhash.o
+CC cachedObjs/eb1b976cffd50ad270651a15d91a33f2/lz4frame.o
+CC cachedObjs/eb1b976cffd50ad270651a15d91a33f2/checkFrame.o
+
+ ---- test lz4 with skippable frames ----
++ lz4 -dc goldenSamples/skip.bin
++ lz4 -dc
++ printf Hello from Valid Frame!\n
++ lz4 -c
++ cat goldenSamples/skip.bin tmp-lsk.lz4 goldenSamples/skip.bin
++ lz4 -dc
+Hello from Valid Frame!
++ remove
++ rm tmp-lsk.lz4
+LD cachedObjs/9f5067099515114286ddb747ef86c5ae/datagen
+
+ ---- test datagen fails correctly on invalid input ----
+Compressible data generator
+Usage :
+      ./datagen [size] [args]
+
+Arguments :
+ -g#    : generate # data (default:65536)
+ -s#    : Select seed (default:0)
+ -P#    : Select compressibility in % (range [0-100])
+ -h     : display help and exit
+Special values :
+ -P0    : generate incompressible noise
+ -P100  : generate sparse files
+
+ ---- test lz4 basic compression/decompression ----
++ datagen -g0
++ lz4 -v
++ lz4 -t
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Using 2 threads for compression 
+
+Read : 0 MiB   ==> 1500.00%                                                                                  Compressed 0 bytes into 15 bytes ==> 1500.00%
+Done in 0.00 s ==> 0.00 MiB/s  (cpu load : 23%)
+Decompressed : 0 MiB                                                                                 stdin                          : decoded 0 bytes 
++ datagen -g16KB
++ lz4 -9
++ lz4 -t
+
+Decompressed : 0 MiB                                                                                 stdin                          : decoded 16384 bytes 
++ datagen -g20KB
+
++ lz4
++ lz4 -d
++ diff -q tmp-tlb-dg20k tmp-tlb-dec
++ lz4 --no-frame-crc
++ lz4 -d
++ diff -q tmp-tlb-dg20k tmp-tlb-dec
++ datagen
++ lz4 -BI
++ lz4 -t
+
+Decompressed : 0 MiB                                                                                 stdin                          : decoded 65536 bytes 
++ datagen
++ + lz4 -t
+lz4 --no-crc
+
+Decompressed : 0 MiB                                                                                 stdin                          : decoded 65536 bytes 
++ datagen -g6M -P99
++ lz4 -t
++ lz4 -9BD
+
+
+ ---- test multiple files ----
++ datagen -s1
++ datagen -s2 -g100K
++ datagen -s3 -g200K
++ lz4 -f -m tmp-tml-trash tmp-tml1 tmp-tml2 tmp-tml3
++ test -f tmp-tml1.lz4
++ test -f tmp-tml2.lz4
++ test -f tmp-tml3.lz4
++ mv tmp-tml1 tmp-tml1-orig
++ mv tmp-tml2 tmp-tml2-orig
++ mv tmp-tml3 tmp-tml3-orig
++ lz4 -d -f -m tmp-tml-trash.lz4 tmp-tml1.lz4 tmp-tml2.lz4 tmp-tml3.lz4
++ cmp tmp-tml1 tmp-tml1-orig
++ cmp tmp-tml2 tmp-tml2-orig
++ cmp tmp-tml3 tmp-tml3-orig
++ cat tmp-tml1.lz4 tmp-tml2.lz4 tmp-tml3.lz4
++ rm tmp-tml-trash.lz4 tmp-tml1.lz4 tmp-tml2.lz4 tmp-tml3.lz4
++ lz4 -m tmp-tml1 tmp-tml2 tmp-tml3 -c
++ test ! -f tmp-tml1.lz4
++ cmp tmp-tml-concat1 tmp-tml-concat2
++ rm tmp-tml-concat1 tmp-tml-concat2
++ lz4 -f -m tmp-tml1 tmp-tml2 tmp-tml3
++ cat tmp-tml1 tmp-tml2 tmp-tml3
++ rm tmp-tml1 tmp-tml2 tmp-tml3
++ lz4 -d -m tmp-tml1.lz4 tmp-tml2.lz4 tmp-tml3.lz4 -c
++ test ! -f tmp-tml1
++ cmp tmp-tml-concat1 tmp-tml-concat2
++ lz4 -f -m tmp-tml-concat1 notHere tmp-tml-concat2
+notHere: No such file or directory 
++ rm tmp-tml-concat1 tmp-tml-concat2
++ lz4 -tm tmp-tml-concat1.lz4
+Decompressed : 4 MiB  + test ! -f tmp-tml-concat1
++ lz4 -tm tmp-tml-concat1.lz4 tmp-tml-concat2.lz4
+                                                                               stdin                          : decoded 6291456 bytes 
++ datagen -g17M
++ lz4 -9v
++ lz4 -qt
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Using 2 threads for compression 
++ test ! -s tmp-tml-test-output
++ test ! -f tmp-tml-concat1
++ test ! -f tmp-tml-concat2
++ lz4 -tm tmp-tml-concat1.lz4 notHere.lz4 tmp-tml-concat2.lz4
+notHere.lz4: No such file or directory 
++ true
++ remove
++ rm tmp-tml-concat1.lz4 tmp-tml-concat2.lz4 tmp-tml-test-output tmp-tml-trash tmp-tml1-orig tmp-tml1.lz4 tmp-tml2-orig tmp-tml2.lz4 tmp-tml3-orig tmp-tml3.lz4
+
+ ---- test multiple files (Legacy format) ----
++ datagen -s1
++ datagen -s2 -g100K
++ datagen -s3 -g200K
++ lz4 -f -l -m tmp-lml-concat1 tmp-lml-concat1.lz4 tmp-lml-concat2 tmp-lml-concat2.lz4 tmp-lml-test-output tmp-lml-trash tmp-lml-zero-decoded tmp-lml1 tmp-lml2 tmp-lml3
++ test -f tmp-lml1.lz4
++ test -f tmp-lml2.lz4
++ test -f tmp-lml3.lz4
++ mv tmp-lml1 tmp-lml1-orig
++ mv tmp-lml2 tmp-lml2-orig
++ mv tmp-lml3 tmp-lml3-orig
++ lz4 -d -f -m tmp-lml-concat1.lz4 tmp-lml-concat1.lz4.lz4 tmp-lml-concat2.lz4 tmp-lml-concat2.lz4.lz4 tmp-lml-test-output.lz4 tmp-lml-trash.lz4 tmp-lml-zero-decoded.lz4 tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ lz4 -l -d -f -m tmp-lml-concat1.lz4 tmp-lml-concat1.lz4.lz4 tmp-lml-concat2.lz4 tmp-lml-concat2.lz4.lz4 tmp-lml-test-output.lz4 tmp-lml-trash.lz4 tmp-lml-zero-decoded.lz4 tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ cmp tmp-lml1 tmp-lml1-orig
++ cmp tmp-lml2 tmp-lml2-orig
++ cmp tmp-lml3 tmp-lml3-orig
++ cat tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ rm -f tmp-lml-concat1.lz4 tmp-lml-concat1.lz4.lz4 tmp-lml-concat2.lz4 tmp-lml-concat2.lz4.lz4 tmp-lml-test-output.lz4 tmp-lml-trash.lz4 tmp-lml-zero-decoded.lz4 tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ lz4 -l -m tmp-lml1 tmp-lml2 tmp-lml3 -c
++ test ! -f tmp-lml1.lz4
++ cmp tmp-lml-concat1 tmp-lml-concat2
++ rm tmp-lml-concat1 tmp-lml-concat2
++ lz4 -l -f -m tmp-lml1 tmp-lml2 tmp-lml3
++ cat tmp-lml1 tmp-lml2 tmp-lml3
++ rm tmp-lml1 tmp-lml2 tmp-lml3
++ lz4 -d -m tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4 -c
++ lz4 -d -l -m tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4 -c
++ test ! -f tmp-lml1
++ cmp tmp-lml-concat1 tmp-lml-concat2
++ rm -f tmp-lml-concat2.lz4
++ lz4 -f -l -m tmp-lml-concat1 notHere-legacy tmp-lml-concat2
+notHere-legacy: No such file or directory 
++ test -f tmp-lml-concat2.lz4
++ lz4 -tm tmp-lml-concat1.lz4 tmp-lml-concat2.lz4
++ test ! -s tmp-lml-test-output
++ datagen -s4 -g25M
+
++ datagen -g1M -P100
+
++ lz4 -l -f tmp-lml-zero-orig tmp-lml-zero.lz4
+Read : 0 MiB   ==> inf%   Read : 0 MiB   ==> inf%                                                                                  Compressed 27262976 bytes into 12305415 bytes ==> 45.14% 
++ printf \000\000\000\000
++ check_legacy_endmark tmp-lml-zero.lz4 tmp-lml-zero-orig
++ lz4 -d -f tmp-lml-zero.lz4 tmp-lml-zero-decoded
+Decompressed : 8 MiB                                                                                 tmp-lml-zero.lz4               : decoded 27262976 bytes 
++ cmp tmp-lml-zero-orig tmp-lml-zero-decoded
++ cat tmp-lml-zero.lz4
++ lz4 -dc
++ cmp tmp-lml-zero-orig tmp-lml-zero-decoded
++ lz4 -t tmp-lml-zero.lz4
+Decompressed : 8 MiB                                                                                 tmp-lml-zero.lz4               : decoded 27262976 bytes 
++ test ! -s tmp-lml-test-output
++ cat tmp-lml-zero.lz4
++ lz4 -t
+Decompressed : 8 MiB                                                                                 stdin                          : decoded 27262976 bytes 
++ test ! -s tmp-lml-test-output
++ lz4 --list -v tmp-lml-zero.lz4
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
++ awk $1 ~ /^[0-9]+$/ {size += $5} END {print size} tmp-lml-zero-list
++ listed_size=12305419
++ wc -c
++ test 12305419 -eq 12305419
++ printf \002\041\114\030\000\000\000\000
++ :
++ check_legacy_endmark tmp-lml-zero-empty.lz4 tmp-lml-zero-empty-orig
++ lz4 -d -f tmp-lml-zero-empty.lz4 tmp-lml-zero-decoded
+                                                                               tmp-lml-zero-empty.lz4         : decoded 0 bytes 
++ cmp tmp-lml-zero-empty-orig tmp-lml-zero-decoded
++ lz4 -dc
++ cat tmp-lml-zero-empty.lz4
++ cmp tmp-lml-zero-empty-orig tmp-lml-zero-decoded
++ lz4 -t tmp-lml-zero-empty.lz4
+                                                                               tmp-lml-zero-empty.lz4         : decoded 0 bytes 
++ test ! -s tmp-lml-test-output
++ cat tmp-lml-zero-empty.lz4
++ lz4 -t
+                                                                               stdin                          : decoded 0 bytes 
++ test ! -s tmp-lml-test-output
++ lz4 --list -v tmp-lml-zero-empty.lz4
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
++ awk $1 ~ /^[0-9]+$/ {size += $5} END {print size} tmp-lml-zero-list
++ listed_size=8
++ wc -c
++ test 8 -eq 8
++ awk $2 == "LegacyFrame" {print $1, $5} tmp-lml-zero-list
++ test 1 8 = 1 8
++ lz4 -f tmp-lml2-orig tmp-lml-zero-modern.lz4
+Read : 0 MiB   ==> 48.17%                                                                                  Compressed 102400 bytes into 49325 bytes ==> 48.17%
++ printf \120\052\115\030\003\000\000\000abc
++ cat tmp-lml-zero.lz4 tmp-lml1.lz4 tmp-lml-zero-empty.lz4 tmp-lml-zero-skip.lz4 tmp-lml-zero-modern.lz4
++ cat tmp-lml-zero-orig tmp-lml1-orig tmp-lml2-orig
++ check_legacy_endmark tmp-lml-zero-concat.lz4 tmp-lml-zero-concat-orig
++ lz4 -d -f tmp-lml-zero-concat.lz4 tmp-lml-zero-decoded
+Decompressed : 8 MiB                                                                                 tmp-lml-zero-concat.lz4        : decoded 27430912 bytes 
++ cmp tmp-lml-zero-concat-orig tmp-lml-zero-decoded
+
+Read : 8 MiB   ==> 52.66%   + cat tmp-lml-zero-concat.lz4
++ lz4 -dc
++ cmp tmp-lml-zero-concat-orig tmp-lml-zero-decoded
++ lz4 -t tmp-lml-zero-concat.lz4
+Decompressed : 8 MiB                                                                                 tmp-lml-zero-concat.lz4        : decoded 27430912 bytes 
++ test ! -s tmp-lml-test-output
++ cat tmp-lml-zero-concat.lz4
++ lz4 -t
+                                                                               Compressed 17825792 bytes into 6261891 bytes ==> 35.13%
+Done in 0.82 s ==> 20.71 MiB/s  (cpu load : 190%)
+Decompressed : 8 MiB  + datagen -g33M
++ lz4 --no-frame-crc
++ lz4 -t
+                                                                               stdin                          : decoded 27430912 bytes 
++ test ! -s tmp-lml-test-output
++ lz4 --list -v tmp-lml-zero-concat.lz4
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
++ awk $1 ~ /^[0-9]+$/ {size += $5} END {print size} tmp-lml-zero-list
++ listed_size=12388233
++ wc -c
++ test 12388233 -eq 12388233
++ awk $1 ~ /^[0-9]+$/ {print $2} tmp-lml-zero-list
++ test LegacyFrame
+LegacyFrame
+LegacyFrame
+SkippableFrame
+LZ4Frame = LegacyFrame
+LegacyFrame
+LegacyFrame
+SkippableFrame
+LZ4Frame
++ cat tmp-lml-zero.lz4
++ printf \001\000\000\000\000
++ lz4 -t tmp-lml-zero-invalid.lz4
+Decompressed : 8 MiB  Decompressed : 4 MiB  Stream followed by undecodable data at position 12305423 
+                                                                               tmp-lml-zero-invalid.lz4       : decoded 27262976 bytes 
++ lz4 --list tmp-lml-zero-invalid.lz4
+lz4: tmp-lml-zero-invalid.lz4: File format not recognized 
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
++ cat tmp-lml1.lz4
++ printf \000
++ lz4 -t tmp-lml-zero-invalid.lz4
+Error 61 : Error: cannot read block size in Legacy format 
++ cat tmp-lml1.lz4
++ printf \000\000
++ lz4 -t tmp-lml-zero-invalid.lz4
+Error 61 : Error: cannot read block size in Legacy format 
++ cat tmp-lml1.lz4
++ printf \000\000\000
++ lz4 -t tmp-lml-zero-invalid.lz4
+Error 61 : Error: cannot read block size in Legacy format 
++ cat tmp-lml1.lz4
++ printf \003\000\000\000\377\377\377
++ lz4 -t tmp-lml-zero-invalid.lz4
+Error 64 : Decoding Failed ! Corrupted input detected ! 
+Decompressed : 0 MiB  + true
++ remove
++ rm tmp-lml-concat1 tmp-lml-concat1.lz4 tmp-lml-concat2 tmp-lml-concat2.lz4 tmp-lml-test-output tmp-lml-trash tmp-lml-zero-concat-orig tmp-lml-zero-concat.lz4 tmp-lml-zero-decoded tmp-lml-zero-empty-orig tmp-lml-zero-empty.lz4 tmp-lml-zero-invalid.lz4 tmp-lml-zero-list tmp-lml-zero-modern.lz4 tmp-lml-zero-orig tmp-lml-zero-skip.lz4 tmp-lml-zero.lz4 tmp-lml1-orig tmp-lml1.lz4 tmp-lml2-orig tmp-lml2.lz4 tmp-lml3-orig tmp-lml3.lz4
+
+ ---- test frame concatenation ----
++ echo
++ echo hi
++ cat tmp-lfc-nonempty tmp-lfc-empty tmp-lfc-nonempty
++ lz4 -zq tmp-lfc-empty -c
++ lz4 -zq tmp-lfc-nonempty -c
++ cat tmp-lfc-nonempty.lz4 tmp-lfc-empty.lz4 tmp-lfc-nonempty.lz4
++ lz4 -d tmp-lfc-concat.lz4 -c
+
++ cmp tmp-lfc-src tmp-lfc-result
++ datagen -g250KB -s1
+
++ datagen -g200KB -s2
+
++ cat tmp-lfc-big1 tmp-lfc-big2
++ lz4 -zq -B5 -BX --no-frame-crc tmp-lfc-big1 -c
++ lz4 -zq -B5 -BX --no-frame-crc tmp-lfc-big2 -c
++ cat tmp-lfc-big1.lz4 tmp-lfc-big2.lz4
++ lz4 -d tmp-lfc-bigconcat.lz4 -c
++ cmp tmp-lfc-bigsrc tmp-lfc-bigresult
++ remove
++ rm tmp-lfc-big1 tmp-lfc-big1.lz4 tmp-lfc-big2 tmp-lfc-big2.lz4 tmp-lfc-bigconcat.lz4 tmp-lfc-bigresult tmp-lfc-bigsrc tmp-lfc-concat.lz4 tmp-lfc-empty tmp-lfc-empty.lz4 tmp-lfc-nonempty tmp-lfc-nonempty.lz4 tmp-lfc-result tmp-lfc-src
+
+ ---- bench mode ----
++ lz4 -bi0
+                                                                               stdin                          : decoded 34603008 bytes 
++ + lz4 -vqB4D
+datagen -g256MB
++ lz4 -t --no-crc
+using blocks of size 64 KB 
+                                                                                |-Lorem ipsum       :  10000000 -> /-Lorem ipsum       :  10000000 ->   4690337 (2.132), 228.8 MB/sDecompressed : 4 MiB   =-Lorem ipsum       :  10000000 ->   4690337 (2.132), 228.8 MB/s, 1550.5 MB/s 1#
++ datagen
+
++ lz4 -f tmp-ltm -c
++ lz4 -bdi0 tmp-ltm.lz4
+Benchmark Decompression of LZ4 Frame + Checksum when present 
+                                                                                |-tmp-ltm.lz4       :     33543 -> /-tmp-ltm.lz4       :     65536 ->     33543 (1.954),   0.0 MB/s,  657.5 MB/s 1#
++ lz4 -bdi0 --no-crc tmp-ltm.lz4
+Benchmark Decompression of LZ4 Frame _without_ checksum even when present 
+                                                                                |-tmp-ltm.lz4       :     33543 -> /-tmp-ltm.lz4       :     65536 ->     33543 (1.954),   0.0 MB/s,  917.2 MB/s 1#
++ echo ---- test mode ----
+---- test mode ----
++ datagen
++ lz4 -t
+
+Error 44 : Unrecognized header : file cannot be decoded 
++ datagen
++ lz4 -tf
+
+Error 44 : Unrecognized header : file cannot be decoded 
++ echo ---- pass-through mode ----
+---- pass-through mode ----
++ echo Why hello there 
++ lz4 -f tmp-ltm2.lz4
+Decoding file tmp-ltm2 
+Error 44 : Unrecognized header : file cannot be decoded 
++ lz4 -dc
++ datagen
+Error 44 : Unrecognized header : file cannot be decoded 
++ datagen
++ lz4 -df
+
+Error 44 : Unrecognized header : file cannot be decoded 
++ datagen
++ lz4 -dcf
+
++ echo Hello World !
++ lz4 -dcf tmp-ltm1
+Hello World !
++ echo from underground...
++ lz4 -dcfm tmp-ltm1 tmp-ltm2
+Hello World !
+from underground...
++ echo ---- non-existing source (must fail cleanly) ----
+---- non-existing source (must fail cleanly) ----
++ lz4 file-does-not-exist
+Compressed filename will be : file-does-not-exist.lz4 
+file-does-not-exist: No such file or directory 
++ lz4 -f file-does-not-exist
+Compressed filename will be : file-does-not-exist.lz4 
+file-does-not-exist: No such file or directory 
++ lz4 -t file-does-not-exist
+file-does-not-exist: No such file or directory 
++ lz4 -fm file1-dne file2-dne
+file1-dne: No such file or directory 
+file2-dne: No such file or directory 
++ true
++ remove
++ rm tmp-ltm tmp-ltm-trash tmp-ltm.lz4 tmp-ltm1 tmp-ltm2 tmp-ltm2.lz4
+
+ ---- test original size support ----
++ datagen -g15M
+
++ + lz4 -v tmp-lzc -c
+lz4 -t
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Using 2 threads for compression 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 15728640 bytes into 7384110 bytes ==> 46.95%
+Done in 0.06 s ==> 250.91 MiB/s  (cpu load : 182%)
+Decompressed : 4 MiB                                                                                 stdin                          : decoded 15728640 bytes 
++ lz4 -v --content-size tmp-lzc -c
++ lz4 -d
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Using 2 threads for compression 
+Decompressed : 55 MiB  Read : 0 MiB   ==> inf%                                                                                  Compressed 15728640 bytes into 7384118 bytes ==> 46.95%
+Done in 0.07 s ==> 222.57 MiB/s  (cpu load : 151%)
++ diff tmp-lzc tmp-lzc-dup
++ lz4 -f tmp-lzc -c
++ lz4 --content-size tmp-lzc -c
++ diff tmp-lzc.lz4 tmp-lzc-wcz.lz4
+Binary files tmp-lzc.lz4 and tmp-lzc-wcz.lz4 differ
++ lz4 --content-size
+warning : --content-size cannot determine size when used with stdin
+Decompressed : 97 MiB  + diff tmp-lzc-wcz.lz4 tmp-lzc-wcz2.lz4
++ cat tmp-lzc
++ lz4
++ diff tmp-lzc.lz4 tmp-lzc-ncz.lz4
++ cat tmp-lzc
++ lz4 --content-size
+warning : --content-size cannot determine size when used with stdin
+Decompressed : 140 MiB  + diff tmp-lzc.lz4 tmp-lzc-ncz2.lz4
++ remove
++ rm tmp-lzc tmp-lzc-dup tmp-lzc-ncz.lz4 tmp-lzc-ncz2.lz4 tmp-lzc-wcz.lz4 tmp-lzc-wcz2.lz4 tmp-lzc.lz4
+
+ ---- test lz4 compression/decompression with dictionary ----
++ datagen -g16KB
+
++ datagen -g32KB
+
++ lz4 -D tmp-dict
++ lz4 -dD tmp-dict
++ diff - tmp-dict-sample-32k
++ datagen -g16MB
+
++ lz4 -v -B5 tmp-dict-sample-16m -D tmp-dict -c
++ lz4 -d -D tmp-dict
++ diff - tmp-dict-sample-16m
+using blocks of size 256 KB 
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Using 2 threads for compression 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 16777216 bytes into 7867825 bytes ==> 46.90%
+Done in 0.07 s ==> 232.98 MiB/s  (cpu load : 182%)
++ lz4 -3 -B4 tmp-dict-sample-16m -D tmp-dict -c
++ wc -c
+using blocks of size 64 KB 
+Decompressed : 191 MiB  + size_dict=6654769
++ lz4 -3 -B4 tmp-dict-sample-16m -c
++ wc -c
+using blocks of size 64 KB 
+Decompressed : 242 MiB  
+                                                                               stdin                          : decoded 268435456 bytes 
++ echo hello world
++ lz4 --rm -f tmp-tlb-hw tmp-tlb-hw.lz4
+Read : 0 MiB   ==> 258.33%                                                                                  Compressed 12 bytes into 31 bytes ==> 258.33%
++ test ! -f tmp-tlb-hw
++ test -f tmp-tlb-hw.lz4
++ lz4 -d --rm -f tmp-tlb-hw.lz4
+Decoding file tmp-tlb-hw 
+Decompressed : 0 MiB                                                                                 tmp-tlb-hw.lz4                 : decoded 12 bytes 
++ test ! -f tmp-tlb-hw.lz4
++ lz4 --rm -f tmp-tlb-hw
+Compressed filename will be : tmp-tlb-hw.lz4 
+Read : 0 MiB   ==> 258.33%                                                                                  Compressed 12 bytes into 31 bytes ==> 258.33%
++ test -f tmp-tlb-hw.lz4
++ grep hello world
++ lz4cat tmp-tlb-hw.lz4
+hello world
++ unlz4 --rm tmp-tlb-hw.lz4 tmp-tlb-hw
+Decompressed : 0 MiB                                                                                 tmp-tlb-hw.lz4                 : decoded 12 bytes 
++ test -f tmp-tlb-hw
++ test ! -f tmp-tlb-hw.lz4
++ test ! -f tmp-tlb-hw.lz4.lz4
++ lz4cat tmp-tlb-hw
+hello world
++ test -f tmp-tlb-hw
++ test ! -f tmp-tlb-hw.lz4
++ lz4 tmp-tlb-hw tmp-tlb-hw.lz4
+Read : 0 MiB   ==> 258.33%                                                                                  Compressed 12 bytes into 31 bytes ==> 258.33%
++ lz4cat
++ diff -q tmp-tlb-hw tmp-tlb3
++ lz4cat
++ diff -q tmp-tlb-hw tmp-tlb2
++ cp tmp-tlb-hw ./-d
++ lz4 --rm -- -d -d.lz4
+Read : 0 MiB   ==> 258.33%                                                                                  Compressed 12 bytes into 31 bytes ==> 258.33%
++ test -f ./-d.lz4
++ test ! -f ./-d
++ mv ./-d.lz4 ./-z
++ lz4 -d --rm -- -z tmp-tlb4
+Decompressed : 0 MiB                                                                                 -z                             : decoded 12 bytes 
++ test ! -f ./-z
++ diff -q tmp-tlb-hw tmp-tlb4
++ lz4 tmp-tlb2 tmp-tlb3 tmp-tlb4
+Error : tmp-tlb4 won't be used ! Do you want multiple input files (-m) ? 
++ mkdir -p tmp-tlb-dir
++ lz4 tmp-tlb-dir
+Compressed filename will be : tmp-tlb-dir.lz4 
+lz4: tmp-tlb-dir is a directory -- ignored 
++ test ! -f tmp-tlb-dir.lz4
++ lz4 -f tmp-tlb-hw
+Compressed filename will be : tmp-tlb-hw.lz4 
+Read : 0 MiB   ==> 258.33%                                                                                  Compressed 12 bytes into 31 bytes ==> 258.33%
++ lz4 --list tmp-tlb-hw.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B4I       31.00             -        -   tmp-tlb-hw.lz4
++ lz4 --list
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
++ lz4 --list goldenSamples/dictID.bin
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B4I       54.00             -        -   dictID.bin
++ wc -c
++ head -c 27 tmp-tlb-hw.lz4
++ size_nodict=7028991
++ [ 6654769 -lt 7028991 ]
++ echo Test Passed: dictionary is effective.
+Test Passed: dictionary is effective.
++ touch tmp-dict-sample-0
++ lz4 --list tmp-tlb-trunc.lz4
++ lz4 -D tmp-dict
++ lz4 -dD tmp-dict
++ diff - tmp-dict-sample-0
+lz4: tmp-tlb-trunc.lz4: File format not recognized 
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
++ cat tmp-tlb-hw
++ lz4 -D tmp-dict-sample-0
++ lz4 -dD tmp-dict-sample-0
++ lz4 -f tmp-tlb-hw.lz4
++ diff - tmp-dict-sample-32k
+Decoding file tmp-tlb-hw 
+Error 34 : Decompression error : ERROR_frameType_unknown 
+Decompressed : 0 MiB  + printf \120\052\115\030\000\000\000\000BAD!
++ cp tmp-tlb-bad.lz4 tmp-tlb-bad-before.lz4
++ + lz4 -dD tmp-dict-sample-0
+lz4 -D tmp-dict-sample-0
++ diff - tmp-dict-sample-0
++ lz4 -d --rm -f tmp-tlb-bad.lz4 tmp-tlb-bad.out
+Stream followed by undecodable data at position 12 
+                                                                               tmp-tlb-bad.lz4                : decoded 0 bytes 
++ diff -q tmp-tlb-bad-before.lz4 tmp-tlb-bad.lz4
++ lz4 -bi0 -D tmp-dict tmp-dict-sample-32k tmp-dict-sample-32k
++ lz4 -tv
++ lz4 -BX tmp-tlb-hw -c -q
+                                                                                |- 2 files          :     65536 ->*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+ /- 2 files          :     65536 ->     15796 (4.149), 527.7 MB/sDecompressed : 0 MiB                                                                                 stdin                          : decoded 12 bytes 
++ datagen -g20KB
++ lz4 -c --fast
++ wc -c
+
++ datagen -g20KB
++ + wc -c
+lz4 -c --fast=9
+
+ =- 2 files          :     65536 ->     15796 (4.149), 527.7 MB/s, 1893.1 MB/s 1#
++ echo ---- test lz4 dictionary loading ----
+---- test lz4 dictionary loading ----
++ datagen -g128KB
++ test 11283 -lt 13884
++ datagen -g20KB
++ lz4 -c -1
++ wc -c
+
+
++ set -e
++ datagen -g0
++ datagen -g20KB
++ lz4 -c --fast=1
+
++ wc -c
++ dd if=tmp-dict-0 of=tmp-dict-0-tail bs=1 count=65536 skip=0
+
+0+0 records in
+0+0 records out
+0 bytes copied, 3.4616e-05 s, 0.0 kB/s
++ test 11043 -lt 11283
++ + lz4 -D stdin tmp-dict-data-128KB -c
+lz4 -dD tmp-dict-0-tail
++ diff - tmp-dict-data-128KB
++ lz4 -c --fast=1
++ wc -c
++ datagen -g20KB
+
++ + datagen -g20KB
+lz4 -c --fast
++ wc -c
++ lz4 -D stdin tmp-dict-data-128KB -c
++ diff - tmp-dict-data-128KB
++ lz4 -dD tmp-dict-0
+
++ test 11283 -eq 11283
++ lz4 -c --fast=0 tmp-tlb-dg20K
+Incorrect parameters
+Usage : 
+      lz4 [arg] [input] [output] 
+
+input   : a filename 
+          with no FILE, or when FILE is - or stdin, read standard input
+Arguments : 
+ -1     : fast compression (default) 
+ -12    : slowest compression level 
+ -T#    : use # threads for compression (default:0==auto) 
+ -d     : decompression (default for .lz4 extension)
+ -f     : overwrite output without prompting 
+ -k     : preserve source files(s)  (default) 
+--rm    : remove source file(s) after successful de/compression 
+ -h/-H  : display help/long help and exit 
++ lz4 -c --fast=-1 tmp-tlb-dg20K
++ datagen -g1
+Incorrect parameters
+Usage : 
+      lz4 [arg] [input] [output] 
+
+input   : a filename 
+          with no FILE, or when FILE is - or stdin, read standard input
+Arguments : 
+ -1     : fast compression (default) 
+ -12    : slowest compression level 
+ -T#    : use # threads for compression (default:0==auto) 
+ -d     : decompression (default for .lz4 extension)
+ -f     : overwrite output without prompting 
+ -k     : preserve source files(s)  (default) 
+--rm    : remove source file(s) after successful de/compression 
+ -h/-H  : display help/long help and exit 
++ datagen -g16M
++ lz4 -T2
++ lz4 -t
+
++ dd if=tmp-dict-1 of=tmp-dict-1-tail bs=1 count=65536 skip=0
+1+0 records in
+1+0 records out
+1 byte copied, 3.0961e-05 s, 32.3 kB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-1-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-1
++ diff - tmp-dict-data-128KB
++ datagen -g4
+
++ dd if=tmp-dict-4 of=tmp-dict-4-tail bs=1 count=65536 skip=0
+4+0 records in
+4+0 records out
+4 bytes copied, 3.0596e-05 s, 131 kB/s
++ lz4 -dD tmp-dict-4-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-4
++ diff - tmp-dict-data-128KB
++ datagen -g128
+
++ dd if=tmp-dict-128 of=tmp-dict-128-tail bs=1 count=65536 skip=0
+128+0 records in
+128+0 records out
+128 bytes copied, 0.000134825 s, 949 kB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-128-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-128
++ diff - tmp-dict-data-128KB
++ datagen -g32767
+
++ dd if=tmp-dict-32767 of=tmp-dict-32767-tail bs=1 count=65536 skip=0
+32767+0 records in
+32767+0 records out
+32767 bytes (33 kB, 32 KiB) copied, 0.0249737 s, 1.3 MB/s
++ + lz4 -D stdin tmp-dict-data-128KB -c
+lz4 -dD tmp-dict-32767-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-32767
++ diff - tmp-dict-data-128KB
+
++ datagen -g32768
+
++ dd if=tmp-dict-32768 of=tmp-dict-32768-tail bs=1 count=65536 skip=0
+Decompressed : 4 MiB  32768+0 records in
+32768+0 records out
+32768 bytes (33 kB, 32 KiB) copied, 0.0232044 s, 1.4 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-32768-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ diff - tmp-dict-data-128KB
++ lz4 -dD tmp-dict-32768
+                                                                               stdin                          : decoded 16777216 bytes 
++ datagen -g16M
++ lz4 --threads=2
++ lz4 -t
++ datagen -g32769
+
++ dd if=tmp-dict-32769 of=tmp-dict-32769-tail bs=1 count=65536 skip=0
+32769+0 records in
+32769+0 records out
+32769 bytes (33 kB, 32 KiB) copied, 0.0248392 s, 1.3 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-32769-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-32769
++ diff - tmp-dict-data-128KB
++ datagen -g65535
+
++ dd if=tmp-dict-65535 of=tmp-dict-65535-tail bs=1 count=65536 skip=0
+
+Decompressed : 4 MiB  65535+0 records in
+65535+0 records out
+65535 bytes (66 kB, 64 KiB) copied, 0.0440797 s, 1.5 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-65535-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-65535
++ diff - tmp-dict-data-128KB
++ datagen -g65536
+
++ dd if=tmp-dict-65536 of=tmp-dict-65536-tail bs=1 count=65536 skip=0
+                                                                               stdin                          : decoded 16777216 bytes 
++ datagen -g1M
++ lz4 -c --fast=999999999
+
++ echo TEST
++ lz4 -m tmp-tlb-test
++ lz4 tmp-tlb-test.lz4 tmp-tlb-test2
+Decompressed : 0 MiB                                                                                 tmp-tlb-test.lz4               : decoded 5 bytes 
++ diff -q tmp-tlb-test tmp-tlb-test2
++ datagen -g4194302
++ lz4 -B4 -c
+using blocks of size 64 KB 
+
++ remove
++ rm -rf tmp-tlb-bad-before.lz4 tmp-tlb-bad.lz4 tmp-tlb-bad.out tmp-tlb-dec tmp-tlb-dg20k tmp-tlb-dir tmp-tlb-hw tmp-tlb-hw.lz4 tmp-tlb-test tmp-tlb-test.lz4 tmp-tlb-test2 tmp-tlb-test3 tmp-tlb-trash tmp-tlb-trunc.lz4 tmp-tlb2 tmp-tlb3 tmp-tlb4
+LD cachedObjs/eb1b976cffd50ad270651a15d91a33f2/checkFrame
+65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0562073 s, 1.2 MB/s
++ + lz4 -D stdin tmp-dict-data-128KB -c
+lz4 -dD tmp-dict-65536-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-65536
++ diff - tmp-dict-data-128KB
++ datagen -g65537
+
++ dd if=tmp-dict-65537 of=tmp-dict-65537-tail bs=1 count=65536 skip=1
+
+ ---- test sparse file support ----
++ datagen -g5M -P100
+
++ lz4 -B4D tmp-tlsdg5M -c
++ lz4 -dv --sparse
+using blocks of size 64 KB 
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Decompressed : 4 MiB                                                                                 stdin                          : decoded 5242880 bytes 
++ diff -s tmp-tlsdg5M tmp-tlscB4
+Files tmp-tlsdg5M and tmp-tlscB4 are identical
++ lz4 -B5D tmp-tlsdg5M -c
++ lz4 -dv --sparse
+using blocks of size 256 KB 
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Decompressed : 4 MiB  65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0630708 s, 1.0 MB/s
+                                                                               stdin                          : decoded 5242880 bytes 
++ + lz4 -D stdin tmp-dict-data-128KB -c
+lz4 -dD tmp-dict-65537-tail
++ diff -s tmp-tlsdg5M tmp-tlscB5
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-65537
++ diff - tmp-dict-data-128KB
+Files tmp-tlsdg5M and tmp-tlscB5 are identical
++ lz4 -B6D tmp-tlsdg5M -c
++ lz4 -dv --sparse
+using blocks of size 1024 KB 
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
++ datagen -g98303
+
++ dd if=tmp-dict-98303 of=tmp-dict-98303-tail bs=1 count=65536 skip=32767
+Decompressed : 4 MiB                                                                                 stdin                          : decoded 5242880 bytes 
++ diff -s tmp-tlsdg5M tmp-tlscB6
+Files tmp-tlsdg5M and tmp-tlscB6 are identical
++ lz4 -B7D tmp-tlsdg5M -c
++ lz4 -dv --sparse
+using blocks of size 4096 KB 
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Decompressed : 4 MiB                                                                                 stdin                          : decoded 5242880 bytes 
++ diff -s tmp-tlsdg5M tmp-tlscB7
+Files tmp-tlsdg5M and tmp-tlscB7 are identical
++ lz4 tmp-tlsdg5M -c
++ lz4 -dv --no-sparse
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Decompressed : 4 MiB  65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0462979 s, 1.4 MB/s
++ lz4 -dD tmp-dict-98303-tail
++ diff - tmp-dict-data-128KB
+                                                                               stdin                          : decoded 5242880 bytes 
++ lz4 -D stdin tmp-dict-data-128KB -c
++ diff -s tmp-tlsdg5M tmp-tlsnosparse
+Files tmp-tlsdg5M and tmp-tlsnosparse are identical
++ ls -ls tmp-tlscB4 tmp-tlscB5 tmp-tlscB6 tmp-tlscB7 tmp-tlsdg5M tmp-tlsnosparse
+  44 -rw-r--r-- 1 root root 5242880 Oct 18 08:54 tmp-tlscB4
+  44 -rw-r--r-- 1 root root 5242880 Oct 18 08:54 tmp-tlscB5
+  44 -rw-r--r-- 1 root root 5242880 Oct 18 08:54 tmp-tlscB6
+  44 -rw-r--r-- 1 root root 5242880 Oct 18 08:54 tmp-tlscB7
+5120 -rw-r--r-- 1 root root 5242880 Oct 18 08:54 tmp-tlsdg5M
+5120 -rw-r--r-- 1 root root 5242880 Oct 18 08:54 tmp-tlsnosparse
++ datagen -s1 -g1200007 -P100
++ lz4
++ lz4 -dv --sparse
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-98303
++ diff - tmp-dict-data-128KB
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+
+Decompressed : 1 MiB                                                                                 stdin                          : decoded 1200007 bytes 
++ datagen -g98304
++ datagen -s1 -g1200007 -P100
++ diff -s - tmp-tlsodd
+
++ dd if=tmp-dict-98304 of=tmp-dict-98304-tail bs=1 count=65536 skip=32768
+
+Files - and tmp-tlsodd are identical
++ ls -ls tmp-tlsodd
+16 -rw-r--r-- 1 root root 1200007 Oct 18 08:54 tmp-tlsodd
++ rm tmp-tlscB4 tmp-tlscB5 tmp-tlscB6 tmp-tlscB7 tmp-tlsdg5M tmp-tlsnosparse tmp-tlsodd
++ printf \n Compatibility with Console :
+
+ Compatibility with Console :+ lz4
++ echo Hello World 1 !
++ lz4 -d -c
+Hello World 1 !
++ echo Hello World 2 !
++ lz4
++ lz4 -d
++ cat
+Hello World 2 !
++ echo Hello World 3 !
++ lz4 --no-frame-crc
++ lz4 -d -c
+Hello World 3 !
++ printf \n Compatibility with Append :
+
+ Compatibility with Append :+ datagen -P100 -g1M
+
++ cat tmp-tlsdg1M tmp-tlsdg1M
++ lz4 -B5 -v tmp-tlsdg1M tmp-tlsc
+using blocks of size 256 KB 
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Using 2 threads for compression 
+Read : 1 MiB   ==> 0.40%                                                                                  Compressed 1048576 bytes into 4192 bytes ==> 0.40%
+Done in 0.00 s ==> 905.80 MiB/s  (cpu load : 100%)
++ lz4 -d -v tmp-tlsc tmp-tlsr
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Decompressed : 1 MiB                                                                                 tmp-tlsc                       : decoded 1048576 bytes 
++ lz4 -d -v tmp-tlsc -c
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+Decompressed : 1 MiB                                                                                 tmp-tlsc                       : decoded 1048576 bytes 
++ ls -ls tmp-tls2M tmp-tlsc tmp-tlsdg1M tmp-tlsr
+2048 -rw-r--r-- 1 root root 2097152 Oct 18 08:54 tmp-tls2M
+   8 -rw-r--r-- 1 root root    4192 Oct 18 08:54 tmp-tlsc
+1024 -rw-r--r-- 1 root root 1048576 Oct 18 08:54 tmp-tlsdg1M
+1032 -rw-r--r-- 1 root root 2097152 Oct 18 08:54 tmp-tlsr
++ diff tmp-tls2M tmp-tlsr
++ remove
++ rm tmp-tls2M tmp-tlsc tmp-tlsdg1M tmp-tlsr
+
+ ---- test lz4 with custom block sizes ----
++ datagen -g12345678
+
++ datagen -g12345678 -s2
+65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0635528 s, 1.0 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-98304-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-98304
++ diff - tmp-dict-data-128KB
++ datagen -g98305
+
++ dd if=tmp-dict-98305 of=tmp-dict-98305-tail bs=1 count=65536 skip=32769
+
++ datagen -g4194303
+
++ datagen -g100KB
+
++ lz4 -f -B3 tmp-tbs-small tmp-tbs.lz4
+Incorrect parameters
+Usage : 
+      lz4 [arg] [input] [output] 
+
+input   : a filename 
+          with no FILE, or when FILE is - or stdin, read standard input
+Arguments : 
+ -1     : fast compression (default) 
+ -12    : slowest compression level 
+ -T#    : use # threads for compression (default:0==auto) 
+ -d     : decompression (default for .lz4 extension)
+ -f     : overwrite output without prompting 
+ -k     : preserve source files(s)  (default) 
+--rm    : remove source file(s) after successful de/compression 
+ -h/-H  : display help/long help and exit 
++ lz4 -f -B31 tmp-tbs-small tmp-tbs.lz4
+Incorrect parameters
+Usage : 
+      lz4 [arg] [input] [output] 
+
+input   : a filename 
+          with no FILE, or when FILE is - or stdin, read standard input
+Arguments : 
+ -1     : fast compression (default) 
+ -12    : slowest compression level 
+ -T#    : use # threads for compression (default:0==auto) 
+ -d     : decompression (default for .lz4 extension)
+ -f     : overwrite output without prompting 
+ -k     : preserve source files(s)  (default) 
+--rm    : remove source file(s) after successful de/compression 
+ -h/-H  : display help/long help and exit 
++ set -- 32 4
++ lz4 -f -T1 -B32 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 32 bytes 
+Read : 0 MiB   ==> inf%   65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0478381 s, 1.4 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-98305-tail
++ diff - tmp-dict-data-128KB
++ + lz4 -D stdin tmp-dict-data-128KB -c
+lz4 -dD tmp-dict-98305
++ diff - tmp-dict-data-128KB
++ datagen -g131071
+
++ dd if=tmp-dict-131071 of=tmp-dict-131071-tail bs=1 count=65536 skip=65535
+                                                                               Compressed 12345678 bytes into 13874235 bytes ==> 112.38%
++ lz4 -f -T4 -B32 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 32 bytes 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 13874235 bytes ==> 112.38%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B32 tmp-tbs-src2 tmp-tbs-2.lz4
+65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0641029 s, 1.0 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-131071-tail
++ diff - tmp-dict-data-128KB
+using blocks of size 32 bytes 
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-131071
++ diff - tmp-dict-data-128KB
++ datagen -g131072
+
++ dd if=tmp-dict-131072 of=tmp-dict-131072-tail bs=1 count=65536 skip=65536
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 13874100 bytes ==> 112.38%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B32 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
+65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0649957 s, 1.0 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-131072-tail
++ diff - tmp-dict-data-128KB
++ + diff - tmp-dict-data-128KB
+lz4 -dD tmp-dict-131072
++ lz4 -D stdin tmp-dict-data-128KB -c
++ datagen -g131073
+
++ dd if=tmp-dict-131073 of=tmp-dict-131073-tail bs=1 count=65536 skip=65537
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 3 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 2048 4
++ lz4 -f -T1 -B2048 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> inf%   65536+0 records in
+65536+0 records out
+65536 bytes (66 kB, 64 KiB) copied, 0.0555183 s, 1.2 MB/s
++ lz4 -D stdin tmp-dict-data-128KB -c
++ lz4 -dD tmp-dict-131073-tail
++ diff - tmp-dict-data-128KB
++ lz4 -D stdin tmp-dict-data-128KB -c
++ diff - tmp-dict-data-128KB
++ lz4 -dD tmp-dict-131073
++ remove
++ rm tmp-dict tmp-dict-0 tmp-dict-0-tail tmp-dict-1 tmp-dict-1-tail tmp-dict-128 tmp-dict-128-tail tmp-dict-131071 tmp-dict-131071-tail tmp-dict-131072 tmp-dict-131072-tail tmp-dict-131073 tmp-dict-131073-tail tmp-dict-32767 tmp-dict-32767-tail tmp-dict-32768 tmp-dict-32768-tail tmp-dict-32769 tmp-dict-32769-tail tmp-dict-4 tmp-dict-4-tail tmp-dict-65535 tmp-dict-65535-tail tmp-dict-65536 tmp-dict-65536-tail tmp-dict-65537 tmp-dict-65537-tail tmp-dict-98303 tmp-dict-98303-tail tmp-dict-98304 tmp-dict-98304-tail tmp-dict-98305 tmp-dict-98305-tail tmp-dict-data-128KB tmp-dict-sample-0 tmp-dict-sample-16m tmp-dict-sample-32k
+                                                                               Compressed 12345678 bytes into 9196636 bytes ==> 74.49%
++ lz4 -f -T4 -B2048 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 9196636 bytes ==> 74.49%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B2048 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 9195326 bytes ==> 74.48%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B2048 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 65535 4
++ lz4 -f -T1 -B65535 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 63 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333345 bytes ==> 51.30%
++ lz4 -f -T4 -B65535 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 63 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333345 bytes ==> 51.30%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B65535 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 63 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6332975 bytes ==> 51.30%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B65535 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 65536 4
++ lz4 -f -T1 -B65536 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333607 bytes ==> 51.30%
++ lz4 -f -T4 -B65536 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333607 bytes ==> 51.30%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B65536 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333375 bytes ==> 51.30%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B65536 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 65537 5
++ lz4 -f -T1 -B65537 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333152 bytes ==> 51.30%
++ lz4 -f -T4 -B65537 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333152 bytes ==> 51.30%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B65537 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6332431 bytes ==> 51.29%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B65537 -b5 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 262143 5
++ lz4 -f -T1 -B262143 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 255 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853254 bytes ==> 47.41%
++ lz4 -f -T4 -B262143 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 255 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853254 bytes ==> 47.41%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B262143 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 255 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852064 bytes ==> 47.40%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B262143 -b5 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 262144 5
++ lz4 -f -T1 -B262144 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852783 bytes ==> 47.41%
++ lz4 -f -T4 -B262144 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852783 bytes ==> 47.41%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B262144 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852335 bytes ==> 47.40%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B262144 -b5 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 262145 6
++ lz4 -f -T1 -B262145 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853178 bytes ==> 47.41%
++ lz4 -f -T4 -B262145 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853178 bytes ==> 47.41%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B262145 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852413 bytes ==> 47.40%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B262145 -b6 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 1048575 6
++ lz4 -f -T1 -B1048575 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 1023 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805066 bytes ==> 47.02%
++ lz4 -f -T4 -B1048575 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 1023 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805066 bytes ==> 47.02%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B1048575 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 1023 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805447 bytes ==> 47.02%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B1048575 -b6 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 1048576 6
++ lz4 -f -T1 -B1048576 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5806231 bytes ==> 47.03%
++ lz4 -f -T4 -B1048576 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 1024 KB 
+Read : 8 MiB   ==> 69.22%                                                                                  Compressed 12345678 bytes into 5806231 bytes ==> 47.03%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B1048576 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805871 bytes ==> 47.03%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B1048576 -b6 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 1048577 7
++ lz4 -f -T1 -B1048577 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5806132 bytes ==> 47.03%
++ lz4 -f -T4 -B1048577 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5806132 bytes ==> 47.03%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B1048577 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805843 bytes ==> 47.03%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B1048577 -b7 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 4194303 7
++ lz4 -f -T1 -B4194303 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 4095 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5795431 bytes ==> 46.94%
++ lz4 -f -T4 -B4194303 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 4095 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5795431 bytes ==> 46.94%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B4194303 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 4095 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5793666 bytes ==> 46.93%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B4194303 -b7 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 4194304 7
++ lz4 -f -T1 -B4194304 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 4096 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5794938 bytes ==> 46.94%
++ lz4 -f -T4 -B4194304 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 4096 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5794938 bytes ==> 46.94%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B4194304 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 4096 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5794213 bytes ==> 46.93%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B4194304 -b7 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ lz4 -f -B10485760 tmp-tbs-src1 tmp-tbs.lz4
+using blocks of size 4096 KB 
+Read : 4 MiB   ==> 93.85%                                                                                  Compressed 12345678 bytes into 5794938 bytes ==> 46.94%
++ checkFrame -B4194304 -b7 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -f -T4 -B65535 tmp-tbs-4mb tmp-tbs.lz4
+using blocks of size 63 KB 
+Read : 3 MiB   ==> 51.28%                                                                                  Compressed 4194303 bytes into 2150924 bytes ==> 51.28%
++ checkFrame -B65535 -b4 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs.lz4
+Decompressed : 3 MiB                                                                                 tmp-tbs.lz4                    : decoded 4194303 bytes 
++ lz4 -f -T4 -B2048 tmp-tbs-small tmp-tbs.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> 74.30%                                                                                  Compressed 102400 bytes into 76087 bytes ==> 74.30%
++ checkFrame -B2048 -b4 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs.lz4
+Decompressed : 0 MiB                                                                                 tmp-tbs.lz4                    : decoded 102400 bytes 
++ lz4 -T4 -B2048
+using blocks of size 2 KB 
++ checkFrame -B2048 -b4 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs.lz4                    : decoded 12345678 bytes 
++ lz4 -f -T1 -1 -BD -B100000 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 97 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5793025 bytes ==> 46.92%
++ lz4 -f -T4 -1 -BD -B100000 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 97 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5793025 bytes ==> 46.92%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ checkFrame -B100000 -b5 tmp-tbs-T4.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-T4.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-T4.lz4                 : decoded 12345678 bytes 
++ lz4 -f -T1 -9 -BD -B100000 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 97 KB 
+Read : 0 MiB   ==> inf%   Read : 3 MiB   ==> 70.14%   Read : 7 MiB   ==> 52.61%                                                                                  Compressed 12345678 bytes into 4330234 bytes ==> 35.07%
++ lz4 -f -T4 -9 -BD -B100000 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 97 KB 
+Read : 11 MiB   ==> 35.21%                                                                                  Compressed 12345678 bytes into 4330234 bytes ==> 35.07%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
+tmp-tbs-T1.lz4 tmp-tbs-T4.lz4 differ: byte 5, line 1
++ remove
++ rm -rf tmp-tbs-2.lz4 tmp-tbs-4mb tmp-tbs-T1.lz4 tmp-tbs-T4.lz4 tmp-tbs-cat.lz4 tmp-tbs-small tmp-tbs-src1 tmp-tbs-src2 tmp-tbs.lz4
+make: *** [Makefile:262: test-lz4-blocksize] Error 1

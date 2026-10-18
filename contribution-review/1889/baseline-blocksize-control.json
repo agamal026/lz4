@@ -1,0 +1,10 @@
+{
+  "name": "baseline-blocksize-control",
+  "source_commit": "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+  "command": "sh tests/test-lz4-blocksize.sh",
+  "started_at": "2026-10-18T12:55:28.700386+00:00",
+  "finished_at": "2026-10-18T12:55:33.393926+00:00",
+  "exit_code": 1,
+  "log": "baseline-blocksize-control.log",
+  "sha256": "9a9cdfbc51a0924847d042e2577124df88fe404779af284d58aa0ef4af28e9e8"
+}

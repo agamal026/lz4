@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "issue_url": "https://github.com/lz4/lz4/issues/1889",
+  "upstream_base": "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+  "upstream_branch": "dev",
+  "source_commit": "f83be8241c6042a0f9b500da927f68caa905fc92",
+  "source_tree": "9aaafc0ed65b523f84046e88b09f21e2ddb5b003",
+  "test_only_baseline_commit": "28ca6d54d6e14c8546ebd24eb671b968b568a099",
+  "baseline_evidence_commit": "f9f961ec521cb16ef602e0178f0f19a9f899f058",
+  "baseline_evidence_url": "https://github.com/agamal026/lz4/blob/f9f961ec521cb16ef602e0178f0f19a9f899f058/contribution-review/1889/baseline/BASELINE.md",
+  "source_files": [
+    {
+      "path": "programs/lz4io.c",
+      "git_blob": "554d3cbc183f0f1c4c11364a95cfbc120010ad29",
+      "sha256": "ed8abe6fbd1bc12eccac2c9caa230bcd3c410eb58d923d2a9f42245091601b99"
+    },
+    {
+      "path": "tests/test-lz4-multiple-legacy.sh",
+      "git_blob": "98c4a91c3430d556f7fa3e1151b5960ceaa7e19e",
+      "sha256": "36ec36744138a8fcdd462fa3289176c57c6a5fed072528bb45a3daa156701df9"
+    },
+    {
+      "path": "doc/lz4_Frame_format.md",
+      "git_blob": "c8122eb8ba00e994442b2fd2e681cdd38c25bcc8",
+      "sha256": "a446b28b1a8cb844ba975d8f968a9ae4444e3f1321791594df621a089d72bab0"
+    }
+  ],
+  "source_patch_sha256": "e3d185a16f863e26756d3477427ac3375d765248b792894e1f0a201d8213c228",
+  "environment": {
+    "os_arch": "Linux x86-64",
+    "compiler": "GCC 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
+    "make": "GNU Make 4.3"
+  },
+  "focused_results": [
+    {
+      "name": "build",
+      "command": [
+        "make",
+        "-C",
+        "programs",
+        "--no-print-directory",
+        "-j2",
+        "lz4",
+        "lz4-nomt",
+        "V=1",
+        "CFLAGS=-O2 -Werror"
+      ],
+      "started_at": "2026-10-18T12:52:02.963326+00:00",
+      "finished_at": "2026-10-18T12:52:04.753671+00:00",
+      "exit_code": 0,
+      "log": "final-build.log"
+    },
+    {
+      "name": "regression-mt",
+      "command": "sh tests/test-lz4-multiple-legacy.sh",
+      "started_at": "2026-10-18T12:52:04.754301+00:00",
+      "finished_at": "2026-10-18T12:52:05.605860+00:00",
+      "exit_code": 0,
+      "log": "final-mt.log",
+      "log_sha256": "9931316a6df553daec4d760682f36e3a52fe7261773e7ae63b66bb2c41796f45",
+      "binary_sha256": "32d79a3b5dbf312de0a67a062d65f9a4fef2a4d2ab57313b1d608f033acd0ba1"
+    },
+    {
+      "name": "regression-nomt",
+      "command": "sh tests/test-lz4-multiple-legacy.sh",
+      "started_at": "2026-10-18T12:52:05.607462+00:00",
+      "finished_at": "2026-10-18T12:52:06.358149+00:00",
+      "exit_code": 0,
+      "log": "final-nomt.log",
+      "log_sha256": "930ad6c91ce852dc79b047631201220233ed1e1e5264ce68ac8c231a8b5c9a11",
+      "binary_sha256": "cbf3bd2865fb65b811e2cb09efdc48d9d9a5474d418cc36cd2f0e743e84f73d8"
+    }
+  ],
+  "broader_results": [
+    {
+      "name": "cli-essentials",
+      "command": [
+        "make",
+        "--no-print-directory",
+        "-C",
+        "tests",
+        "-j2",
+        "test-lz4-essentials",
+        "test-lz4-sparse",
+        "test-lz4-skippable",
+        "CFLAGS=-O2 -Werror"
+      ],
+      "started_at": "2026-10-18T12:53:56.138865+00:00",
+      "finished_at": "2026-10-18T12:54:07.439084+00:00",
+      "exit_code": 2,
+      "log": "cli-essentials.log",
+      "sha256": "1a8b148676eefbeadb90c0ce5d1f6a66bd984f74029fb245789162336d36efd2"
+    },
+    {
+      "name": "listing-suite",
+      "command": [
+        "python3",
+        "tests/test-lz4-list.py"
+      ],
+      "started_at": "2026-10-18T12:54:07.439605+00:00",
+      "finished_at": "2026-10-18T12:54:07.779116+00:00",
+      "exit_code": 0,
+      "log": "listing-suite.log",
+      "sha256": "90bed185a1b152c10319ede41380ba99c0fb4129c43e786a4c2ce59f67e9b489"
+    }
+  ],
+  "baseline_blocksize_control": {
+    "name": "baseline-blocksize-control",
+    "source_commit": "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+    "command": "sh tests/test-lz4-blocksize.sh",
+    "started_at": "2026-10-18T12:55:28.700386+00:00",
+    "finished_at": "2026-10-18T12:55:33.393926+00:00",
+    "exit_code": 1,
+    "log": "baseline-blocksize-control.log",
+    "sha256": "9a9cdfbc51a0924847d042e2577124df88fe404779af284d58aa0ef4af28e9e8"
+  },
+  "regression_execution": {
+    "working_directory": "<checkout>/tests",
+    "command_from_working_directory": "sh test-lz4-multiple-legacy.sh",
+    "path_order": [
+      "saved executable named lz4 for selected build mode",
+      "<checkout>/tests",
+      "existing PATH"
+    ],
+    "mt_environment": {
+      "LZ4_NBWORKERS": "2"
+    },
+    "nomt_environment": {
+      "LZ4_NBWORKERS": "unset"
+    },
+    "explanation": "Receipt command labels are checkout-relative; the shell scripts actually ran from tests with PATH selecting the saved mode binary."
+  },
+  "broader_environment": {
+    "LZ4_NBWORKERS": "2"
+  },
+  "listing_environment": {
+    "TMPDIR": "<evidence>/listing-temp"
+  },
+  "listing_summary": {
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "broader_failure": {
+    "target": "test-lz4-blocksize",
+    "comparison": "high-compression linked blocks, -T1 versus -T4",
+    "observed_difference": "byte 5, line 1",
+    "same_failure_reproduced_with_unchanged_upstream_binary": true,
+    "baseline_binary_sha256": "7e6c862d3c44998f182aed1d91713d46416bc8cf8a322df6ae1dbfc2713789ba",
+    "baseline_script_unchanged": true,
+    "full_suite_pass": false
+  },
+  "review": {
+    "kind": "independent automated source review",
+    "path": "AUTOMATED_REVIEW.md",
+    "required_changes": 0,
+    "human_review": false
+  },
+  "logs": [
+    {
+      "path": "final-build.log",
+      "original_sha256": "d742a76608941c79cd5db5d533cd6f2447bd5e1be0dc70e5d4f3faa4519ac657",
+      "published_sha256": "d742a76608941c79cd5db5d533cd6f2447bd5e1be0dc70e5d4f3faa4519ac657",
+      "original_bytes": 2409,
+      "published_bytes": 2409,
+      "path_normalized": false
+    },
+    {
+      "path": "final-mt.log",
+      "original_sha256": "9931316a6df553daec4d760682f36e3a52fe7261773e7ae63b66bb2c41796f45",
+      "published_sha256": "9931316a6df553daec4d760682f36e3a52fe7261773e7ae63b66bb2c41796f45",
+      "original_bytes": 6927,
+      "published_bytes": 6927,
+      "path_normalized": false
+    },
+    {
+      "path": "final-nomt.log",
+      "original_sha256": "930ad6c91ce852dc79b047631201220233ed1e1e5264ce68ac8c231a8b5c9a11",
+      "published_sha256": "930ad6c91ce852dc79b047631201220233ed1e1e5264ce68ac8c231a8b5c9a11",
+      "original_bytes": 6818,
+      "published_bytes": 6818,
+      "path_normalized": false
+    },
+    {
+      "path": "cli-essentials.log",
+      "original_sha256": "1a8b148676eefbeadb90c0ce5d1f6a66bd984f74029fb245789162336d36efd2",
+      "published_sha256": "10cc155ce6a513c94e67744ba75de63359631af902f66ad9aa2b9ccb521acebe",
+      "original_bytes": 55082,
+      "published_bytes": 55022,
+      "path_normalized": true
+    },
+    {
+      "path": "listing-suite.log",
+      "original_sha256": "90bed185a1b152c10319ede41380ba99c0fb4129c43e786a4c2ce59f67e9b489",
+      "published_sha256": "0dc6206d791f4f8db93e815104d85ef416f973286da654f5110326e6ca60e4f4",
+      "original_bytes": 12110,
+      "published_bytes": 9524,
+      "path_normalized": true
+    },
+    {
+      "path": "baseline-blocksize-control.log",
+      "original_sha256": "9a9cdfbc51a0924847d042e2577124df88fe404779af284d58aa0ef4af28e9e8",
+      "published_sha256": "9a9cdfbc51a0924847d042e2577124df88fe404779af284d58aa0ef4af28e9e8",
+      "original_bytes": 18631,
+      "published_bytes": 18631,
+      "path_normalized": false
+    }
+  ],
+  "publication_normalization": "Only absolute checkout/evidence directory prefixes in two logs were replaced with <checkout> or <evidence>. All other bytes, including terminal control characters, were retained. Original receipts retain original log hashes; the logs array gives both original and published hashes.",
+  "limits": [
+    "No hosted workflow result is established by this packet.",
+    "No cross-platform, full sanitizer, or complete upstream suite pass is claimed.",
+    "The broader CLI command failed; its only observed make failure was reproduced on the unchanged baseline.",
+    "No upstream acceptance, personal review, reward eligibility, or payment is established."
+  ]
+}

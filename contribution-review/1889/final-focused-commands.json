@@ -1,0 +1,40 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "make",
+      "-C",
+      "programs",
+      "--no-print-directory",
+      "-j2",
+      "lz4",
+      "lz4-nomt",
+      "V=1",
+      "CFLAGS=-O2 -Werror"
+    ],
+    "started_at": "2026-10-18T12:52:02.963326+00:00",
+    "finished_at": "2026-10-18T12:52:04.753671+00:00",
+    "exit_code": 0,
+    "log": "final-build.log"
+  },
+  {
+    "name": "regression-mt",
+    "command": "sh tests/test-lz4-multiple-legacy.sh",
+    "started_at": "2026-10-18T12:52:04.754301+00:00",
+    "finished_at": "2026-10-18T12:52:05.605860+00:00",
+    "exit_code": 0,
+    "log": "final-mt.log",
+    "log_sha256": "9931316a6df553daec4d760682f36e3a52fe7261773e7ae63b66bb2c41796f45",
+    "binary_sha256": "32d79a3b5dbf312de0a67a062d65f9a4fef2a4d2ab57313b1d608f033acd0ba1"
+  },
+  {
+    "name": "regression-nomt",
+    "command": "sh tests/test-lz4-multiple-legacy.sh",
+    "started_at": "2026-10-18T12:52:05.607462+00:00",
+    "finished_at": "2026-10-18T12:52:06.358149+00:00",
+    "exit_code": 0,
+    "log": "final-nomt.log",
+    "log_sha256": "930ad6c91ce852dc79b047631201220233ed1e1e5264ce68ac8c231a8b5c9a11",
+    "binary_sha256": "cbf3bd2865fb65b811e2cb09efdc48d9d9a5474d418cc36cd2f0e743e84f73d8"
+  }
+]

@@ -1,0 +1,12 @@
+CC cachedObjs/bbb653e926413afde246fbe9204660fa/lz4io.o
+cc -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O2 -Werror -MT cachedObjs/bbb653e926413afde246fbe9204660fa/lz4io.o -MMD -MP -MF cachedObjs/bbb653e926413afde246fbe9204660fa/lz4io.d -c lz4io.c -o cachedObjs/bbb653e926413afde246fbe9204660fa/lz4io.o
+CC cachedObjs/0fa2023295c7224a74357957b99b631e/lz4io.o
+cc -I../lib -DXXH_NAMESPACE=LZ4_ -O2 -Werror -MT cachedObjs/0fa2023295c7224a74357957b99b631e/lz4io.o -MMD -MP -MF cachedObjs/0fa2023295c7224a74357957b99b631e/lz4io.d -c lz4io.c -o cachedObjs/0fa2023295c7224a74357957b99b631e/lz4io.o
+LD cachedObjs/0fa2023295c7224a74357957b99b631e/lz4-nomt
+cc -I../lib -DXXH_NAMESPACE=LZ4_ -O2 -Werror cachedObjs/0fa2023295c7224a74357957b99b631e/lz4.o cachedObjs/0fa2023295c7224a74357957b99b631e/lz4file.o cachedObjs/0fa2023295c7224a74357957b99b631e/lz4frame.o cachedObjs/0fa2023295c7224a74357957b99b631e/lz4hc.o cachedObjs/0fa2023295c7224a74357957b99b631e/xxhash.o cachedObjs/0fa2023295c7224a74357957b99b631e/bench.o cachedObjs/0fa2023295c7224a74357957b99b631e/lorem.o cachedObjs/0fa2023295c7224a74357957b99b631e/lz4cli.o cachedObjs/0fa2023295c7224a74357957b99b631e/lz4io.o cachedObjs/0fa2023295c7224a74357957b99b631e/threadpool.o cachedObjs/0fa2023295c7224a74357957b99b631e/timefn.o cachedObjs/0fa2023295c7224a74357957b99b631e/util.o -o cachedObjs/0fa2023295c7224a74357957b99b631e/lz4-nomt  
+ln -sf cachedObjs/0fa2023295c7224a74357957b99b631e/lz4-nomt lz4-nomt
+LD cachedObjs/bbb653e926413afde246fbe9204660fa/lz4
+cc -I../lib -DXXH_NAMESPACE=LZ4_ -DLZ4IO_MULTITHREAD -O2 -Werror cachedObjs/bbb653e926413afde246fbe9204660fa/lz4.o cachedObjs/bbb653e926413afde246fbe9204660fa/lz4file.o cachedObjs/bbb653e926413afde246fbe9204660fa/lz4frame.o cachedObjs/bbb653e926413afde246fbe9204660fa/lz4hc.o cachedObjs/bbb653e926413afde246fbe9204660fa/xxhash.o cachedObjs/bbb653e926413afde246fbe9204660fa/bench.o cachedObjs/bbb653e926413afde246fbe9204660fa/lorem.o cachedObjs/bbb653e926413afde246fbe9204660fa/lz4cli.o cachedObjs/bbb653e926413afde246fbe9204660fa/lz4io.o cachedObjs/bbb653e926413afde246fbe9204660fa/threadpool.o cachedObjs/bbb653e926413afde246fbe9204660fa/timefn.o cachedObjs/bbb653e926413afde246fbe9204660fa/util.o -o cachedObjs/bbb653e926413afde246fbe9204660fa/lz4 -pthread 
+echo "==> built with multithreading support"
+==> built with multithreading support
+ln -sf cachedObjs/bbb653e926413afde246fbe9204660fa/lz4 lz4

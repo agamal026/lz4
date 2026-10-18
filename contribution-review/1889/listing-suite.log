@@ -1,0 +1,121 @@
+2026/10/18 08:54:07 - Generating <evidence>/listing-temp/test_list_03M
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --content-size <evidence>/listing-temp/test_list_03M <evidence>/listing-temp/test_list_03M-lz4f-1f--content-size.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -BI <evidence>/listing-temp/test_list_03M <evidence>/listing-temp/test_list_03M-lz4f-1f-BI.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -BD <evidence>/listing-temp/test_list_03M <evidence>/listing-temp/test_list_03M-lz4f-1f-BD.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -BX <evidence>/listing-temp/test_list_03M <evidence>/listing-temp/test_list_03M-lz4f-1f-BX.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --no-frame-crc <evidence>/listing-temp/test_list_03M <evidence>/listing-temp/test_list_03M-lz4f-1f--no-frame-crc.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -l <evidence>/listing-temp/test_list_03M <evidence>/listing-temp/test_list_03M-legc-1f.lz4
+2026/10/18 08:54:07 - Generating <evidence>/listing-temp/test_list_11M
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --content-size <evidence>/listing-temp/test_list_11M <evidence>/listing-temp/test_list_11M-lz4f-1f--content-size.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -BI <evidence>/listing-temp/test_list_11M <evidence>/listing-temp/test_list_11M-lz4f-1f-BI.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -BD <evidence>/listing-temp/test_list_11M <evidence>/listing-temp/test_list_11M-lz4f-1f-BD.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -BX <evidence>/listing-temp/test_list_11M <evidence>/listing-temp/test_list_11M-lz4f-1f-BX.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --no-frame-crc <evidence>/listing-temp/test_list_11M <evidence>/listing-temp/test_list_11M-lz4f-1f--no-frame-crc.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 -l <evidence>/listing-temp/test_list_11M <evidence>/listing-temp/test_list_11M-legc-1f.lz4
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_03M-legc-1f.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1    LegacyFrame     -       1.51M             -        -   test_list_03M-legc-1f.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_03M-lz4f-1f--content-size.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       1.51M         3.00M    50.39%  test_list_03M-lz4f-1f--content-size.lz4 
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_03M-lz4f-1f--no-frame-crc.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       1.51M             -        -   test_list_03M-lz4f-1f--no-frame-crc.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_03M-lz4f-1f-BD.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       1.51M             -        -   test_list_03M-lz4f-1f-BD.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_03M-lz4f-1f-BI.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       1.51M             -        -   test_list_03M-lz4f-1f-BI.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_03M-lz4f-1f-BX.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       1.51M             -        -   test_list_03M-lz4f-1f-BX.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_03M-skip-1f.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1 SkippableFrame     -       3.01K             -        -   test_list_03M-skip-1f.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_11M-legc-1f.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1    LegacyFrame     -       5.54M             -        -   test_list_11M-legc-1f.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_11M-lz4f-1f--content-size.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       5.53M        11.00M    50.29%  test_list_11M-lz4f-1f--content-size.lz4 
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_11M-lz4f-1f--no-frame-crc.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       5.53M             -        -   test_list_11M-lz4f-1f--no-frame-crc.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_11M-lz4f-1f-BD.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7D       5.53M             -        -   test_list_11M-lz4f-1f-BD.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_11M-lz4f-1f-BI.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       5.53M             -        -   test_list_11M-lz4f-1f-BI.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_11M-lz4f-1f-BX.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1       LZ4Frame   B7I       5.53M             -        -   test_list_11M-lz4f-1f-BX.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_11M-skip-1f.lz4test_block (__main__.TestNonVerbose.test_block) ... ok
+test_compressed_size (__main__.TestNonVerbose.test_compressed_size) ... ok
+test_frame_types (__main__.TestNonVerbose.test_frame_types) ... ok
+test_frames (__main__.TestNonVerbose.test_frames) ... ok
+test_ratio (__main__.TestNonVerbose.test_ratio) ... ok
+test_uncompressed_size (__main__.TestNonVerbose.test_uncompressed_size) ... ok
+test_block (__main__.TestVerbose.test_block) ... ok
+test_checksum (__main__.TestVerbose.test_checksum) ... ok
+test_frame_number (__main__.TestVerbose.test_frame_number) ... ok
+test_ratio (__main__.TestVerbose.test_ratio) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.030s
+
+OK
+
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         1 SkippableFrame     -      11.01K             -        -   test_list_11M-skip-1f.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_14M-lz4f-2f--content-size.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+         2       LZ4Frame   B7I       7.04M        14.00M    50.31%  test_list_14M-lz4f-2f--content-size.lz4 
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m <evidence>/listing-temp/test_list_concat-all.lz4
+    Frames           Type Block  Compressed  Uncompressed    Ratio   Filename
+        16              -     -      49.33M             -        -   test_list_concat-all.lz4
+
+2026/10/18 08:54:07 - > <checkout>/programs/lz4 --list -m -v <evidence>/listing-temp/test_list_concat-all.lz4 <evidence>/listing-temp/test_list_14M-lz4f-2f--content-size.lz4
+test_list_concat-all.lz4(1/2)
+     Frame           Type Block Checksum           Compressed         Uncompressed     Ratio
+         1    LegacyFrame     -        -              1585215                    -         -
+         2       LZ4Frame   B7I    XXH32              1585234              3145728     50.39%
+         3       LZ4Frame   B7I        -              1585222                    -         - 
+         4       LZ4Frame   B7I    XXH32              1585226                    -         - 
+         5       LZ4Frame   B7I    XXH32              1585226                    -         - 
+         6       LZ4Frame   B7I    XXH32              1585230                    -         - 
+         7 SkippableFrame     -        -                 3080                    -         -
+         8    LegacyFrame     -        -              5812421                    -         -
+         9       LZ4Frame   B7I    XXH32              5800117             11534336     50.29%
+        10       LZ4Frame   B7I        -              5800105                    -         - 
+        11       LZ4Frame   B7D    XXH32              5800108                    -         - 
+        12       LZ4Frame   B7I    XXH32              5800109                    -         - 
+        13       LZ4Frame   B7I    XXH32              5800121                    -         - 
+        14 SkippableFrame     -        -                11272                    -         -
+        15       LZ4Frame   B7I    XXH32              1585234              3145728     50.39%
+        16       LZ4Frame   B7I    XXH32              5800117             11534336     50.29%
+
+test_list_14M-lz4f-2f--content-size.lz4(2/2)
+     Frame           Type Block Checksum           Compressed         Uncompressed     Ratio
+         1       LZ4Frame   B7I    XXH32              1585234              3145728     50.39%
+         2       LZ4Frame   B7I    XXH32              5800117             11534336     50.29%
+
+
+*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***
+

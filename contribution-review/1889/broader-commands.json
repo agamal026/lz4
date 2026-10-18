@@ -1,0 +1,33 @@
+[
+  {
+    "name": "cli-essentials",
+    "command": [
+      "make",
+      "--no-print-directory",
+      "-C",
+      "tests",
+      "-j2",
+      "test-lz4-essentials",
+      "test-lz4-sparse",
+      "test-lz4-skippable",
+      "CFLAGS=-O2 -Werror"
+    ],
+    "started_at": "2026-10-18T12:53:56.138865+00:00",
+    "finished_at": "2026-10-18T12:54:07.439084+00:00",
+    "exit_code": 2,
+    "log": "cli-essentials.log",
+    "sha256": "1a8b148676eefbeadb90c0ce5d1f6a66bd984f74029fb245789162336d36efd2"
+  },
+  {
+    "name": "listing-suite",
+    "command": [
+      "python3",
+      "tests/test-lz4-list.py"
+    ],
+    "started_at": "2026-10-18T12:54:07.439605+00:00",
+    "finished_at": "2026-10-18T12:54:07.779116+00:00",
+    "exit_code": 0,
+    "log": "listing-suite.log",
+    "sha256": "90bed185a1b152c10319ede41380ba99c0fb4129c43e786a4c2ce59f67e9b489"
+  }
+]

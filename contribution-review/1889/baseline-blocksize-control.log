@@ -1,0 +1,294 @@
++ datagen -g12345678
+
++ datagen -g12345678 -s2
+
++ datagen -g4194303
+
++ datagen -g100KB
+
++ lz4 -f -B3 tmp-tbs-small tmp-tbs.lz4
+Incorrect parameters
+Usage : 
+      lz4 [arg] [input] [output] 
+
+input   : a filename 
+          with no FILE, or when FILE is - or stdin, read standard input
+Arguments : 
+ -1     : fast compression (default) 
+ -12    : slowest compression level 
+ -T#    : use # threads for compression (default:0==auto) 
+ -d     : decompression (default for .lz4 extension)
+ -f     : overwrite output without prompting 
+ -k     : preserve source files(s)  (default) 
+--rm    : remove source file(s) after successful de/compression 
+ -h/-H  : display help/long help and exit 
++ lz4 -f -B31 tmp-tbs-small tmp-tbs.lz4
+Incorrect parameters
+Usage : 
+      lz4 [arg] [input] [output] 
+
+input   : a filename 
+          with no FILE, or when FILE is - or stdin, read standard input
+Arguments : 
+ -1     : fast compression (default) 
+ -12    : slowest compression level 
+ -T#    : use # threads for compression (default:0==auto) 
+ -d     : decompression (default for .lz4 extension)
+ -f     : overwrite output without prompting 
+ -k     : preserve source files(s)  (default) 
+--rm    : remove source file(s) after successful de/compression 
+ -h/-H  : display help/long help and exit 
++ set -- 32 4
++ lz4 -f -T1 -B32 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 32 bytes 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 13874235 bytes ==> 112.38%
++ lz4 -f -T4 -B32 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 32 bytes 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 13874235 bytes ==> 112.38%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B32 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 32 bytes 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 13874100 bytes ==> 112.38%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B32 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 3 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 2048 4
++ lz4 -f -T1 -B2048 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 9196636 bytes ==> 74.49%
++ lz4 -f -T4 -B2048 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 9196636 bytes ==> 74.49%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B2048 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 9195326 bytes ==> 74.48%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B2048 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 65535 4
++ lz4 -f -T1 -B65535 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 63 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333345 bytes ==> 51.30%
++ lz4 -f -T4 -B65535 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 63 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333345 bytes ==> 51.30%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B65535 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 63 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6332975 bytes ==> 51.30%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B65535 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 65536 4
++ lz4 -f -T1 -B65536 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333607 bytes ==> 51.30%
++ lz4 -f -T4 -B65536 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333607 bytes ==> 51.30%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B65536 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333375 bytes ==> 51.30%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B65536 -b4 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 65537 5
++ lz4 -f -T1 -B65537 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333152 bytes ==> 51.30%
++ lz4 -f -T4 -B65537 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6333152 bytes ==> 51.30%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B65537 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 64 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 6332431 bytes ==> 51.29%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B65537 -b5 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 262143 5
++ lz4 -f -T1 -B262143 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 255 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853254 bytes ==> 47.41%
++ lz4 -f -T4 -B262143 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 255 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853254 bytes ==> 47.41%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B262143 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 255 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852064 bytes ==> 47.40%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B262143 -b5 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 262144 5
++ lz4 -f -T1 -B262144 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852783 bytes ==> 47.41%
++ lz4 -f -T4 -B262144 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852783 bytes ==> 47.41%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B262144 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852335 bytes ==> 47.40%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B262144 -b5 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 262145 6
++ lz4 -f -T1 -B262145 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853178 bytes ==> 47.41%
++ lz4 -f -T4 -B262145 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5853178 bytes ==> 47.41%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B262145 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 256 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5852413 bytes ==> 47.40%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B262145 -b6 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 1048575 6
++ lz4 -f -T1 -B1048575 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 1023 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805066 bytes ==> 47.02%
++ lz4 -f -T4 -B1048575 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 1023 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805066 bytes ==> 47.02%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B1048575 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 1023 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805447 bytes ==> 47.02%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B1048575 -b6 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 1048576 6
++ lz4 -f -T1 -B1048576 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5806231 bytes ==> 47.03%
++ lz4 -f -T4 -B1048576 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5806231 bytes ==> 47.03%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B1048576 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805871 bytes ==> 47.03%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B1048576 -b6 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 1048577 7
++ lz4 -f -T1 -B1048577 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5806132 bytes ==> 47.03%
++ lz4 -f -T4 -B1048577 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5806132 bytes ==> 47.03%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B1048577 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 1024 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5805843 bytes ==> 47.03%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B1048577 -b7 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 4194303 7
++ lz4 -f -T1 -B4194303 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 4095 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5795431 bytes ==> 46.94%
++ lz4 -f -T4 -B4194303 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 4095 KB 
+Read : 3 MiB   ==> 93.84%                                                                                  Compressed 12345678 bytes into 5795431 bytes ==> 46.94%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B4194303 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 4095 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5793666 bytes ==> 46.93%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B4194303 -b7 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ set -- 4194304 7
++ lz4 -f -T1 -B4194304 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 4096 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5794938 bytes ==> 46.94%
++ lz4 -f -T4 -B4194304 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 4096 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5794938 bytes ==> 46.94%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ lz4 -f -T4 -B4194304 tmp-tbs-src2 tmp-tbs-2.lz4
+using blocks of size 4096 KB 
+Read : 8 MiB   ==> 69.07%                                                                                  Compressed 12345678 bytes into 5794213 bytes ==> 46.93%
++ cat tmp-tbs-T4.lz4 tmp-tbs-2.lz4
++ checkFrame -B4194304 -b7 tmp-tbs-cat.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-cat.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-cat.lz4                : decoded 24691356 bytes 
++ lz4 -f -B10485760 tmp-tbs-src1 tmp-tbs.lz4
+using blocks of size 4096 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5794938 bytes ==> 46.94%
++ checkFrame -B4194304 -b7 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -f -T4 -B65535 tmp-tbs-4mb tmp-tbs.lz4
+using blocks of size 63 KB 
+Read : 3 MiB   ==> 51.28%                                                                                  Compressed 4194303 bytes into 2150924 bytes ==> 51.28%
++ checkFrame -B65535 -b4 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs.lz4
+Decompressed : 3 MiB                                                                                 tmp-tbs.lz4                    : decoded 4194303 bytes 
++ lz4 -f -T4 -B2048 tmp-tbs-small tmp-tbs.lz4
+using blocks of size 2 KB 
+Read : 0 MiB   ==> 74.30%                                                                                  Compressed 102400 bytes into 76087 bytes ==> 74.30%
++ checkFrame -B2048 -b4 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs.lz4
+Decompressed : 0 MiB                                                                                 tmp-tbs.lz4                    : decoded 102400 bytes 
++ lz4 -T4 -B2048
+using blocks of size 2 KB 
++ checkFrame -B2048 -b4 tmp-tbs.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs.lz4                    : decoded 12345678 bytes 
++ lz4 -f -T1 -1 -BD -B100000 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 97 KB 
+Read : 0 MiB   ==> inf%                                                                                  Compressed 12345678 bytes into 5793025 bytes ==> 46.92%
++ lz4 -f -T4 -1 -BD -B100000 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 97 KB 
+Read : 3 MiB   ==> 93.82%                                                                                  Compressed 12345678 bytes into 5793025 bytes ==> 46.92%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
++ checkFrame -B100000 -b5 tmp-tbs-T4.lz4
+Starting frame checker (64-bits, 1.10.1)
++ lz4 -t tmp-tbs-T4.lz4
+Decompressed : 4 MiB                                                                                 tmp-tbs-T4.lz4                 : decoded 12345678 bytes 
++ lz4 -f -T1 -9 -BD -B100000 tmp-tbs-src1 tmp-tbs-T1.lz4
+using blocks of size 97 KB 
+Read : 0 MiB   ==> inf%   Read : 3 MiB   ==> 70.14%   Read : 7 MiB   ==> 52.61%                                                                                  Compressed 12345678 bytes into 4330234 bytes ==> 35.07%
++ lz4 -f -T4 -9 -BD -B100000 tmp-tbs-src1 tmp-tbs-T4.lz4
+using blocks of size 97 KB 
+Read : 0 MiB   ==> inf%   Read : 3 MiB   ==> 70.14%                                                                                  Compressed 12345678 bytes into 4330234 bytes ==> 35.07%
++ cmp tmp-tbs-T1.lz4 tmp-tbs-T4.lz4
+tmp-tbs-T1.lz4 tmp-tbs-T4.lz4 differ: byte 5, line 1
++ remove
++ rm -rf tmp-tbs-2.lz4 tmp-tbs-4mb tmp-tbs-T1.lz4 tmp-tbs-T4.lz4 tmp-tbs-cat.lz4 tmp-tbs-small tmp-tbs-src1 tmp-tbs-src2 tmp-tbs.lz4

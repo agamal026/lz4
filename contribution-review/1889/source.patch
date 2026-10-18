@@ -1,0 +1,117 @@
+diff --git a/doc/lz4_Frame_format.md b/doc/lz4_Frame_format.md
+index fd9e9554..c8122eb8 100644
+--- a/doc/lz4_Frame_format.md
++++ b/doc/lz4_Frame_format.md
+@@ -386,14 +386,17 @@ Data is always compressed, even when compression is detrimental.
+ 
+ __EndMark__
+ 
+-End of legacy frame is implicit only.
+-It must be followed by a standard EOF (End Of File) signal,
++End of legacy frame can be implicit, signaled by a standard EOF (End Of File),
+ whether it is a file or a stream.
+ 
+ Alternatively, if the frame is followed by a valid Frame Magic Number,
+ it is considered completed.
+ This policy makes it possible to concatenate legacy frames.
+ 
++The Linux kernel extension also accepts a zero Block Compressed Size as an
++explicit end marker. These four zero bytes complete the frame; any following
++frame starts with its own Magic Number.
++
+ Any other value will be interpreted as a block size,
+ and trigger an error if it does not fit within acceptable range.
+ 
+diff --git a/programs/lz4io.c b/programs/lz4io.c
+index 05ce4395..554d3cbc 100644
+--- a/programs/lz4io.c
++++ b/programs/lz4io.c
+@@ -1870,6 +1870,7 @@ LZ4IO_decodeLegacyStream(FILE* finput, FILE* foutput, const LZ4IO_prefs_t* prefs
+                 END_PROCESS(61, "Error: cannot read block size in Legacy format");
+         }
+         blockSize = LZ4IO_readLE32(header);       /* Convert to Little Endian */
++        if (blockSize == 0) break;  /* Legacy end marker used by the Linux kernel */
+         if (blockSize > LZ4_COMPRESSBOUND(LEGACY_BLOCKSIZE)) {
+             /* Cannot read next block : maybe new stream ? */
+             g_magicRead = blockSize;
+@@ -1940,6 +1941,7 @@ LZ4IO_decodeLegacyStream(FILE* finput, FILE* foutput, const LZ4IO_prefs_t* prefs
+                 END_PROCESS(62, "Error: cannot read block size in Legacy format");
+         }
+         blockSize = LZ4IO_readLE32(in_buff);       /* Convert to Little Endian */
++        if (blockSize == 0) break;  /* Legacy end marker used by the Linux kernel */
+         if (blockSize > LZ4_COMPRESSBOUND(LEGACY_BLOCKSIZE)) {
+             /* Cannot read next block : maybe new stream ? */
+             g_magicRead = blockSize;
+@@ -2761,6 +2763,7 @@ static unsigned long long LZ4IO_skipLegacyBlocksData(FILE* finput)
+                 return legacyFrameUndecodable;
+             }
+             totalBlocksSize += LZ4IO_LEGACY_BLOCK_HEADER_SIZE + nextCBlockSize;
++            if (nextCBlockSize == 0) break;  /* Include the legacy end marker */
+             /* skip to the next block
+              * note : this won't fail if nextCBlockSize is too large, skipping past the end of finput */
+             if (UTIL_fseek(finput, nextCBlockSize, SEEK_CUR) != 0) {
+diff --git a/tests/test-lz4-multiple-legacy.sh b/tests/test-lz4-multiple-legacy.sh
+index 50cc6271..98c4a91c 100755
+--- a/tests/test-lz4-multiple-legacy.sh
++++ b/tests/test-lz4-multiple-legacy.sh
+@@ -51,4 +51,60 @@ test -f $FPREFIX-concat2.lz4 # notHere was a non-blocking error, concat2.lz4 sho
+ # test multiple legacy files without writing decoded content
+ lz4 -tm $FPREFIX-concat1.lz4 $FPREFIX-concat2.lz4 > $FPREFIX-test-output
+ test ! -s $FPREFIX-test-output
++
++# The Linux kernel accepts a zero block-size word as a legacy end marker.
++# Use several blocks and a sparse tail to exercise queued writes and flushing.
++datagen -s4 -g25M > $FPREFIX-zero-orig
++datagen -g1M -P100 >> $FPREFIX-zero-orig
++lz4 -l -f $FPREFIX-zero-orig $FPREFIX-zero.lz4
++printf '\000\000\000\000' >> $FPREFIX-zero.lz4
++
++check_legacy_endmark () {
++    lz4 -d -f "$1" $FPREFIX-zero-decoded
++    cmp "$2" $FPREFIX-zero-decoded
++    cat "$1" | lz4 -dc > $FPREFIX-zero-decoded
++    cmp "$2" $FPREFIX-zero-decoded
++    lz4 -t "$1" > $FPREFIX-test-output
++    test ! -s $FPREFIX-test-output
++    cat "$1" | lz4 -t > $FPREFIX-test-output
++    test ! -s $FPREFIX-test-output
++    # Verbose compressed sizes include every header, including the end marker.
++    lz4 --list -v "$1" > $FPREFIX-zero-list
++    listed_size=$(awk '$1 ~ /^[0-9]+$/ {size += $5} END {print size}' $FPREFIX-zero-list)
++    test "$listed_size" -eq "$(wc -c < "$1")"
++}
++
++check_legacy_endmark $FPREFIX-zero.lz4 $FPREFIX-zero-orig
++
++# An empty terminated frame is just its magic number and a zero size word.
++printf '\002\041\114\030\000\000\000\000' > $FPREFIX-zero-empty.lz4
++: > $FPREFIX-zero-empty-orig
++check_legacy_endmark $FPREFIX-zero-empty.lz4 $FPREFIX-zero-empty-orig
++test "$(awk '$2 == "LegacyFrame" {print $1, $5}' $FPREFIX-zero-list)" = "1 8"
++
++# Continue at the next frame, even through a pipe: legacy, skippable and modern.
++lz4 -f ${FPREFIX}2-orig $FPREFIX-zero-modern.lz4
++printf '\120\052\115\030\003\000\000\000abc' > $FPREFIX-zero-skip.lz4
++cat $FPREFIX-zero.lz4 ${FPREFIX}1.lz4 $FPREFIX-zero-empty.lz4 \
++    $FPREFIX-zero-skip.lz4 $FPREFIX-zero-modern.lz4 > $FPREFIX-zero-concat.lz4
++cat $FPREFIX-zero-orig ${FPREFIX}1-orig ${FPREFIX}2-orig > $FPREFIX-zero-concat-orig
++check_legacy_endmark $FPREFIX-zero-concat.lz4 $FPREFIX-zero-concat-orig
++test "$(awk '$1 ~ /^[0-9]+$/ {print $2}' $FPREFIX-zero-list)" = "LegacyFrame
++LegacyFrame
++LegacyFrame
++SkippableFrame
++LZ4Frame"
++
++# A terminator cannot make following block-like data part of the old frame.
++cat $FPREFIX-zero.lz4 > $FPREFIX-zero-invalid.lz4
++printf '\001\000\000\000\000' >> $FPREFIX-zero-invalid.lz4
++lz4 -t $FPREFIX-zero-invalid.lz4 && exit 1
++lz4 --list $FPREFIX-zero-invalid.lz4 && exit 1
++
++# Partial block headers and actually corrupt blocks must still fail.
++for suffix in '\000' '\000\000' '\000\000\000' '\003\000\000\000\377\377\377'; do
++    cat ${FPREFIX}1.lz4 > $FPREFIX-zero-invalid.lz4
++    printf "$suffix" >> $FPREFIX-zero-invalid.lz4
++    lz4 -t $FPREFIX-zero-invalid.lz4 && exit 1
++done
+ true
