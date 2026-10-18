@@ -1,0 +1,1057 @@
+{
+  "schema_version": 1,
+  "subject": "LZ4 #1889 / PR #1890 completed upstream CI after the TSan correction",
+  "prepared_at_utc": "2026-10-18T14:30:05.019992+00:00",
+  "pr_url": "https://github.com/lz4/lz4/pull/1890",
+  "source": {
+    "head": "0917e70420429ea2acab6aaac48cffdf4e827440",
+    "base": "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+    "head_parent": "f83be8241c6042a0f9b500da927f68caa905fc92",
+    "actual_checkout_merge": "9eb241584f5019e048346682cdd8bd2ac76b0100",
+    "merge_parents": [
+      "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+      "0917e70420429ea2acab6aaac48cffdf4e827440"
+    ],
+    "head_tree": "26cbd5018554777b0b36efd53e76616d9e006b1d",
+    "merge_tree": "26cbd5018554777b0b36efd53e76616d9e006b1d",
+    "identical_trees_verified_by_canonical_git_data": true
+  },
+  "observation": {
+    "monitor_started_utc": "2026-10-18 13:59:50 UTC",
+    "final_start_utc": "2026-10-18 14:11:25 UTC",
+    "final_end_utc": "2026-10-18 14:11:26 UTC",
+    "count": 7,
+    "head_checked_before_each": true,
+    "log_fetched_utc": "2026-10-18T14:11:51Z",
+    "log_audited_utc": "2026-10-18T14:13:24Z"
+  },
+  "result": {
+    "job_count": 54,
+    "check_run_count": 54,
+    "workflow_count": 9,
+    "all_jobs_success": true,
+    "all_checks_success": true,
+    "all_workflows_success": true,
+    "all_job_heads_match": true,
+    "job_and_check_ids_match": true,
+    "completed_job_steps_consistent": true,
+    "appveyor": [
+      {
+        "context": "continuous-integration/appveyor/pr",
+        "state": "success",
+        "url": "https://ci.appveyor.com/project/YannCollet/lz4-1lndh/builds/54919870",
+        "updated_at": "2026-10-18T14:04:10Z"
+      }
+    ]
+  },
+  "workflows": [
+    {
+      "id": 39133845143,
+      "name": "Build Systems",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845143",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 3,
+      "job_ids": [
+        117694254952,
+        117694255176,
+        117694255224
+      ]
+    },
+    {
+      "id": 39133845224,
+      "name": "CMake Build Tests",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845224",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 8,
+      "job_ids": [
+        117694255278,
+        117694255351,
+        117694255374,
+        117694255395,
+        117694255407,
+        117694255420,
+        117694255464,
+        117694255480
+      ]
+    },
+    {
+      "id": 39133845148,
+      "name": "Code Quality",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845148",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 5,
+      "job_ids": [
+        117694254997,
+        117694255143,
+        117694255177,
+        117694255207,
+        117694255255
+      ]
+    },
+    {
+      "id": 39133845159,
+      "name": "Compiler Tests",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845159",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 7,
+      "job_ids": [
+        117694255485,
+        117694255639,
+        117694255644,
+        117694255662,
+        117694255678,
+        117694255689,
+        117694255742
+      ]
+    },
+    {
+      "id": 39133845188,
+      "name": "Core Tests",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845188",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 9,
+      "job_ids": [
+        117694254996,
+        117694255195,
+        117694255198,
+        117694255210,
+        117694255215,
+        117694255219,
+        117694255222,
+        117694255231,
+        117694255265
+      ]
+    },
+    {
+      "id": 39133845146,
+      "name": "Cross Platform",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845146",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 10,
+      "job_ids": [
+        117694255030,
+        117694255202,
+        117694255247,
+        117694255258,
+        117694255263,
+        117694255275,
+        117694255286,
+        117694255295,
+        117694255441,
+        117694255757
+      ]
+    },
+    {
+      "id": 39133845150,
+      "name": "OSS-Fuzz",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845150",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 3,
+      "job_ids": [
+        117694255196,
+        117694255318,
+        117694255418
+      ]
+    },
+    {
+      "id": 39133845154,
+      "name": "Release & Environment",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845154",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 4,
+      "job_ids": [
+        117694255092,
+        117694255239,
+        117694255303,
+        117694255308
+      ]
+    },
+    {
+      "id": 39133845170,
+      "name": "Sanitizers",
+      "url": "https://github.com/lz4/lz4/actions/runs/39133845170",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "job_count": 5,
+      "job_ids": [
+        117694255347,
+        117694255399,
+        117694255431,
+        117694255444,
+        117694255449
+      ]
+    }
+  ],
+  "actual_jobs": [
+    {
+      "id": 117694254952,
+      "run_id": 39133845143,
+      "name": "Meson + Ninja",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845143/job/117694254952",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T14:01:22Z"
+    },
+    {
+      "id": 117694254996,
+      "run_id": 39133845188,
+      "name": "Memory Usage Tests",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694254996",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:57:53Z"
+    },
+    {
+      "id": 117694254997,
+      "run_id": 39133845148,
+      "name": "Cppcheck Static Analysis",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845148/job/117694254997",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T14:04:19Z"
+    },
+    {
+      "id": 117694255030,
+      "run_id": 39133845146,
+      "name": "macOS",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255030",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:51Z",
+      "completed_at": "2026-10-18T14:05:03Z"
+    },
+    {
+      "id": 117694255092,
+      "run_id": 39133845154,
+      "name": "Git Version Tag Check",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845154/job/117694255092",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:48Z",
+      "completed_at": "2026-10-18T13:57:53Z"
+    },
+    {
+      "id": 117694255143,
+      "run_id": 39133845148,
+      "name": "Unicode Linting",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845148/job/117694255143",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:57:51Z"
+    },
+    {
+      "id": 117694255176,
+      "run_id": 39133845143,
+      "name": "Meson + Ninja (MSVC, shared library)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845143/job/117694255176",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:48Z",
+      "completed_at": "2026-10-18T13:58:23Z"
+    },
+    {
+      "id": 117694255177,
+      "run_id": 39133845148,
+      "name": "Clang Static Analyzer",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845148/job/117694255177",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:59:14Z"
+    },
+    {
+      "id": 117694255195,
+      "run_id": 39133845188,
+      "name": "LZ4 Frame Tests",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255195",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:48Z",
+      "completed_at": "2026-10-18T14:01:12Z"
+    },
+    {
+      "id": 117694255196,
+      "run_id": 39133845150,
+      "name": "OSS-Fuzz (address)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845150/job/117694255196",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T14:01:13Z"
+    },
+    {
+      "id": 117694255198,
+      "run_id": 39133845188,
+      "name": "Makefile Standard Variables Test",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255198",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:58:19Z",
+      "completed_at": "2026-10-18T13:58:24Z"
+    },
+    {
+      "id": 117694255202,
+      "run_id": 39133845146,
+      "name": "ARM (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255202",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:48Z",
+      "completed_at": "2026-10-18T13:59:02Z"
+    },
+    {
+      "id": 117694255207,
+      "run_id": 39133845148,
+      "name": "Valgrind Memory Analysis",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845148/job/117694255207",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:58:28Z",
+      "completed_at": "2026-10-18T14:02:43Z"
+    },
+    {
+      "id": 117694255210,
+      "run_id": 39133845188,
+      "name": "Custom Configuration Tests",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255210",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:59:47Z",
+      "completed_at": "2026-10-18T14:00:25Z"
+    },
+    {
+      "id": 117694255215,
+      "run_id": 39133845188,
+      "name": "ABI Compatibility Tests",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255215",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:59:10Z"
+    },
+    {
+      "id": 117694255219,
+      "run_id": 39133845188,
+      "name": "Version Compatibility Tests",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255219",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:59:16Z",
+      "completed_at": "2026-10-18T14:00:28Z"
+    },
+    {
+      "id": 117694255222,
+      "run_id": 39133845188,
+      "name": "Block Device Compression Test",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255222",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:48Z",
+      "completed_at": "2026-10-18T13:57:57Z"
+    },
+    {
+      "id": 117694255224,
+      "run_id": 39133845143,
+      "name": "windows-2022 Visual Studio",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845143/job/117694255224",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:53Z",
+      "completed_at": "2026-10-18T14:03:14Z"
+    },
+    {
+      "id": 117694255231,
+      "run_id": 39133845188,
+      "name": "Benchmark Tests",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255231",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:59:08Z",
+      "completed_at": "2026-10-18T14:01:32Z"
+    },
+    {
+      "id": 117694255239,
+      "run_id": 39133845154,
+      "name": "Environment Info (ubuntu-latest)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845154/job/117694255239",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:57:59Z"
+    },
+    {
+      "id": 117694255247,
+      "run_id": 39133845146,
+      "name": "PPC (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255247",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:59:23Z"
+    },
+    {
+      "id": 117694255255,
+      "run_id": 39133845148,
+      "name": "Build Examples",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845148/job/117694255255",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:59:24Z",
+      "completed_at": "2026-10-18T13:59:39Z"
+    },
+    {
+      "id": 117694255258,
+      "run_id": 39133845146,
+      "name": "S390X (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255258",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:59Z",
+      "completed_at": "2026-10-18T13:59:45Z"
+    },
+    {
+      "id": 117694255263,
+      "run_id": 39133845146,
+      "name": "M68K (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255263",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:59:59Z"
+    },
+    {
+      "id": 117694255265,
+      "run_id": 39133845188,
+      "name": "Fuzzer Tests",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845188/job/117694255265",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T14:01:09Z"
+    },
+    {
+      "id": 117694255275,
+      "run_id": 39133845146,
+      "name": "RISC-V (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255275",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:00:27Z",
+      "completed_at": "2026-10-18T14:03:07Z"
+    },
+    {
+      "id": 117694255278,
+      "run_id": 39133845224,
+      "name": "Make CMake",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255278",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:58:11Z",
+      "completed_at": "2026-10-18T13:58:26Z"
+    },
+    {
+      "id": 117694255286,
+      "run_id": 39133845146,
+      "name": "SPARC (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255286",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:48Z",
+      "completed_at": "2026-10-18T14:01:07Z"
+    },
+    {
+      "id": 117694255295,
+      "run_id": 39133845146,
+      "name": "MIPS (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255295",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:00:51Z",
+      "completed_at": "2026-10-18T14:03:28Z"
+    },
+    {
+      "id": 117694255303,
+      "run_id": 39133845154,
+      "name": "Environment Info (ubuntu-22.04)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845154/job/117694255303",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:55Z",
+      "completed_at": "2026-10-18T13:58:09Z"
+    },
+    {
+      "id": 117694255308,
+      "run_id": 39133845154,
+      "name": "Environment Info (ubuntu-24.04)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845154/job/117694255308",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:00:30Z",
+      "completed_at": "2026-10-18T14:00:49Z"
+    },
+    {
+      "id": 117694255318,
+      "run_id": 39133845150,
+      "name": "OSS-Fuzz (memory)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845150/job/117694255318",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:58:25Z",
+      "completed_at": "2026-10-18T14:01:44Z"
+    },
+    {
+      "id": 117694255347,
+      "run_id": 39133845170,
+      "name": "AddressSanitizer (x64)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845170/job/117694255347",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:13Z",
+      "completed_at": "2026-10-18T14:05:09Z"
+    },
+    {
+      "id": 117694255351,
+      "run_id": 39133845224,
+      "name": "Extended Tests (integration)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255351",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:47Z",
+      "completed_at": "2026-10-18T13:58:17Z"
+    },
+    {
+      "id": 117694255374,
+      "run_id": 39133845224,
+      "name": "Core Tests (macos-latest, Release)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255374",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:58:30Z",
+      "completed_at": "2026-10-18T13:59:06Z"
+    },
+    {
+      "id": 117694255395,
+      "run_id": 39133845224,
+      "name": "Core Tests (ubuntu-latest, Release)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255395",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:00:00Z",
+      "completed_at": "2026-10-18T14:00:24Z"
+    },
+    {
+      "id": 117694255399,
+      "run_id": 39133845170,
+      "name": "UndefinedBehaviorSanitizer (x86)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845170/job/117694255399",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:59:12Z",
+      "completed_at": "2026-10-18T14:01:10Z"
+    },
+    {
+      "id": 117694255407,
+      "run_id": 39133845224,
+      "name": "Core Tests (ubuntu-latest, Debug)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255407",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:00:26Z",
+      "completed_at": "2026-10-18T14:00:47Z"
+    },
+    {
+      "id": 117694255418,
+      "run_id": 39133845150,
+      "name": "OSS-Fuzz (undefined)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845150/job/117694255418",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:59:03Z",
+      "completed_at": "2026-10-18T14:02:27Z"
+    },
+    {
+      "id": 117694255420,
+      "run_id": 39133845224,
+      "name": "Extended Tests (static_lib)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255420",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:09Z",
+      "completed_at": "2026-10-18T14:01:41Z"
+    },
+    {
+      "id": 117694255431,
+      "run_id": 39133845170,
+      "name": "MemorySanitizer (x64)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845170/job/117694255431",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:00:49Z",
+      "completed_at": "2026-10-18T14:04:43Z"
+    },
+    {
+      "id": 117694255441,
+      "run_id": 39133845146,
+      "name": "ARM64 (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255441",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:24Z",
+      "completed_at": "2026-10-18T14:03:43Z"
+    },
+    {
+      "id": 117694255444,
+      "run_id": 39133845170,
+      "name": "ThreadSanitizer (x64)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845170/job/117694255444",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:00:22Z",
+      "completed_at": "2026-10-18T14:10:01Z"
+    },
+    {
+      "id": 117694255449,
+      "run_id": 39133845170,
+      "name": "UndefinedBehaviorSanitizer (x64)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845170/job/117694255449",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:12Z",
+      "completed_at": "2026-10-18T14:03:14Z"
+    },
+    {
+      "id": 117694255464,
+      "run_id": 39133845224,
+      "name": "Extended Tests (cmake_versions)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255464",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:10Z",
+      "completed_at": "2026-10-18T14:01:37Z"
+    },
+    {
+      "id": 117694255480,
+      "run_id": 39133845224,
+      "name": "Core Tests (windows-latest, Release)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845224/job/117694255480",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:48Z",
+      "completed_at": "2026-10-18T13:58:49Z"
+    },
+    {
+      "id": 117694255485,
+      "run_id": 39133845159,
+      "name": "gcc-11 on ubuntu-22.04",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845159/job/117694255485",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:58:51Z",
+      "completed_at": "2026-10-18T14:02:28Z"
+    },
+    {
+      "id": 117694255639,
+      "run_id": 39133845159,
+      "name": "clang-14 on ubuntu-22.04",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845159/job/117694255639",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:59:40Z",
+      "completed_at": "2026-10-18T14:04:06Z"
+    },
+    {
+      "id": 117694255644,
+      "run_id": 39133845159,
+      "name": "cc on ubuntu-latest",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845159/job/117694255644",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:34Z",
+      "completed_at": "2026-10-18T14:06:02Z"
+    },
+    {
+      "id": 117694255662,
+      "run_id": 39133845159,
+      "name": "clang on ubuntu-latest",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845159/job/117694255662",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:39Z",
+      "completed_at": "2026-10-18T14:04:44Z"
+    },
+    {
+      "id": 117694255678,
+      "run_id": 39133845159,
+      "name": "gcc on ubuntu-latest",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845159/job/117694255678",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:14Z",
+      "completed_at": "2026-10-18T14:05:25Z"
+    },
+    {
+      "id": 117694255689,
+      "run_id": 39133845159,
+      "name": "gcc-14 on ubuntu-24.04",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845159/job/117694255689",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:57:55Z",
+      "completed_at": "2026-10-18T14:02:19Z"
+    },
+    {
+      "id": 117694255742,
+      "run_id": 39133845159,
+      "name": "clang-18 on ubuntu-24.04",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845159/job/117694255742",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T13:58:01Z",
+      "completed_at": "2026-10-18T14:00:20Z"
+    },
+    {
+      "id": 117694255757,
+      "run_id": 39133845146,
+      "name": "PPC64LE (QEMU)",
+      "html_url": "https://github.com/lz4/lz4/actions/runs/39133845146/job/117694255757",
+      "head_sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-18T14:01:43Z",
+      "completed_at": "2026-10-18T14:03:27Z"
+    }
+  ],
+  "checks": {
+    "count": 54,
+    "ids": [
+      117694254952,
+      117694254996,
+      117694254997,
+      117694255030,
+      117694255092,
+      117694255143,
+      117694255176,
+      117694255177,
+      117694255195,
+      117694255196,
+      117694255198,
+      117694255202,
+      117694255207,
+      117694255210,
+      117694255215,
+      117694255219,
+      117694255222,
+      117694255224,
+      117694255231,
+      117694255239,
+      117694255247,
+      117694255255,
+      117694255258,
+      117694255263,
+      117694255265,
+      117694255275,
+      117694255278,
+      117694255286,
+      117694255295,
+      117694255303,
+      117694255308,
+      117694255318,
+      117694255347,
+      117694255351,
+      117694255374,
+      117694255395,
+      117694255399,
+      117694255407,
+      117694255418,
+      117694255420,
+      117694255431,
+      117694255441,
+      117694255444,
+      117694255449,
+      117694255464,
+      117694255480,
+      117694255485,
+      117694255639,
+      117694255644,
+      117694255662,
+      117694255678,
+      117694255689,
+      117694255742,
+      117694255757
+    ],
+    "every_head": "0917e70420429ea2acab6aaac48cffdf4e827440",
+    "every_status": "completed",
+    "every_conclusion": "success",
+    "ids_equal_actual_job_ids": true,
+    "full_records": "github-monitor-receipt.json: observations[-1].check_runs"
+  },
+  "commit_status": {
+    "sha": "0917e70420429ea2acab6aaac48cffdf4e827440",
+    "state": "success",
+    "total_count": 1,
+    "statuses": [
+      {
+        "context": "continuous-integration/appveyor/pr",
+        "state": "success",
+        "target_url": "https://ci.appveyor.com/project/YannCollet/lz4-1lndh/builds/54919870",
+        "updated_at": "2026-10-18T14:04:10Z"
+      }
+    ]
+  },
+  "tsan": {
+    "job_id": 117694255444,
+    "run_id": 39133845170,
+    "url": "https://github.com/lz4/lz4/actions/runs/39133845170/job/117694255444",
+    "job_conclusion": "success",
+    "job_completed_at": "2026-10-18T14:10:01Z",
+    "step": {
+      "name": "TSan - CLI test",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-10-18T14:00:24Z",
+      "completed_at": "2026-10-18T14:09:59Z"
+    },
+    "actual_checkout_merge_sha": "9eb241584f5019e048346682cdd8bd2ac76b0100",
+    "checked_out_tree_matches_source": true,
+    "checkout_tree": "26cbd5018554777b0b36efd53e76616d9e006b1d",
+    "environment": {
+      "os": "Ubuntu 24.04.5 LTS",
+      "image": "ubuntu-24.04",
+      "image_version": "20261012.334.1",
+      "runner_version": "2.337.0",
+      "compiler": "clang",
+      "compiler_version": null,
+      "compiler_version_limit": "The exact Clang version is not printed in the returned job log.",
+      "instrumented_compilation_and_link_observed": true,
+      "multithread_preprocessor_flag_observed": true
+    },
+    "regression_audit": {
+      "script": "tests/test-lz4-multiple-legacy.sh",
+      "script_git_blob": "98c4a91c3430d556f7fa3e1151b5960ceaa7e19e",
+      "source_reference": "https://github.com/lz4/lz4/blob/0917e70420429ea2acab6aaac48cffdf4e827440/tests/test-lz4-multiple-legacy.sh",
+      "script_invoked_at": "2026-10-18T14:00:34.8831275Z",
+      "script_final_true_at": "2026-10-18T14:01:24.2975737Z",
+      "script_cleanup_at": "2026-10-18T14:01:24.3092708Z",
+      "cases": [
+        {
+          "name": "tmp-lml-zero.lz4 tmp-lml-zero-orig",
+          "start_line": 792,
+          "end_line": 1078,
+          "expected_decoded_bytes": 27262976,
+          "literal_cmp_commands": [
+            "2026-10-18T14:00:46.4580382Z + cmp tmp-lml-zero-orig tmp-lml-zero-decoded",
+            "2026-10-18T14:00:51.6390623Z + cmp tmp-lml-zero-orig tmp-lml-zero-decoded"
+          ],
+          "literal_stdout_empty_assertions": [
+            "2026-10-18T14:00:55.5780584Z + test ! -s tmp-lml-test-output",
+            "2026-10-18T14:00:59.4750836Z + test ! -s tmp-lml-test-output"
+          ],
+          "literal_named_file_totals": [
+            "2026-10-18T14:00:46.4520609Z tmp-lml-zero.lz4               : decoded 27262976 bytes ",
+            "2026-10-18T14:00:55.5720472Z tmp-lml-zero.lz4               : decoded 27262976 bytes "
+          ],
+          "literal_matching_stdin_total": [
+            "2026-10-18T14:00:59.4670294Z stdin                          : decoded 27262976 bytes "
+          ],
+          "literal_listing_command": [
+            "2026-10-18T14:00:59.4840823Z + lz4 --list -v tmp-lml-zero.lz4"
+          ],
+          "literal_size_assertions": [
+            "2026-10-18T14:00:59.5621148Z + test 12305419 -eq 12305419"
+          ],
+          "expected_listed_compressed_bytes": 12305419
+        },
+        {
+          "name": "tmp-lml-zero-empty.lz4 tmp-lml-zero-empty-orig",
+          "start_line": 1079,
+          "end_line": 1120,
+          "expected_decoded_bytes": 0,
+          "literal_cmp_commands": [
+            "2026-10-18T14:00:59.6690499Z + cmp tmp-lml-zero-empty-orig tmp-lml-zero-decoded",
+            "2026-10-18T14:00:59.7400524Z + cmp tmp-lml-zero-empty-orig tmp-lml-zero-decoded"
+          ],
+          "literal_stdout_empty_assertions": [
+            "2026-10-18T14:00:59.8440481Z + test ! -s tmp-lml-test-output",
+            "2026-10-18T14:00:59.9280299Z + test ! -s tmp-lml-test-output"
+          ],
+          "literal_named_file_totals": [
+            "2026-10-18T14:00:59.6630961Z tmp-lml-zero-empty.lz4         : decoded 0 bytes ",
+            "2026-10-18T14:00:59.8380454Z tmp-lml-zero-empty.lz4         : decoded 0 bytes "
+          ],
+          "literal_matching_stdin_total": [
+            "2026-10-18T14:00:59.9220256Z stdin                          : decoded 0 bytes "
+          ],
+          "literal_listing_command": [
+            "2026-10-18T14:00:59.9330369Z + lz4 --list -v tmp-lml-zero-empty.lz4"
+          ],
+          "literal_size_assertions": [
+            "2026-10-18T14:00:59.9750172Z + test 8 -eq 8"
+          ],
+          "expected_listed_compressed_bytes": 8
+        },
+        {
+          "name": "tmp-lml-zero-concat.lz4 tmp-lml-zero-concat-orig",
+          "start_line": 1121,
+          "end_line": 1390,
+          "expected_decoded_bytes": 27430912,
+          "literal_cmp_commands": [
+            "2026-10-18T14:01:03.5730219Z + cmp tmp-lml-zero-concat-orig tmp-lml-zero-decoded",
+            "2026-10-18T14:01:07.7990724Z + cmp tmp-lml-zero-concat-orig tmp-lml-zero-decoded"
+          ],
+          "literal_stdout_empty_assertions": [
+            "2026-10-18T14:01:11.9230229Z + test ! -s tmp-lml-test-output",
+            "2026-10-18T14:01:15.2760641Z + test ! -s tmp-lml-test-output"
+          ],
+          "literal_named_file_totals": [
+            "2026-10-18T14:01:03.5640184Z tmp-lml-zero-concat.lz4        : decoded 27430912 bytes ",
+            "2026-10-18T14:01:11.9170505Z tmp-lml-zero-concat.lz4        : decoded 27430912 bytes "
+          ],
+          "literal_matching_stdin_total": [
+            "2026-10-18T14:01:15.2711317Z stdin                          : decoded 27430912 bytes "
+          ],
+          "literal_listing_command": [
+            "2026-10-18T14:01:15.2800678Z + lz4 --list -v tmp-lml-zero-concat.lz4"
+          ],
+          "literal_size_assertions": [
+            "2026-10-18T14:01:15.3060707Z + test 12388233 -eq 12388233"
+          ],
+          "expected_listed_compressed_bytes": 12388233
+        }
+      ],
+      "negative_controls": "Traced invalid trailing block-like data and rejected listing, three partial-header cases with expected Error61, and one corrupt-block case with expected Error64 precede the script's final true and cleanup. No make failure is present.",
+      "no_thread_sanitizer_warning_summary_or_fatal": true,
+      "no_make_error": true,
+      "interpretation": "The script's set-e positive assertions and guarded expected failures reached final true; its make target does not ignore errors. The whole instrumented CLI step succeeded. Output from concurrently executing make targets is interleaved, so case evidence is matched by unique fixture names and exact assertions rather than attributing every nearby stdin count to this script."
+    }
+  },
+  "tsan_commands": [
+    "make clean",
+    "CC=clang CPPFLAGS=\"-fsanitize=thread\" make -j -C tests test-lz4 V=1"
+  ],
+  "archive": {
+    "filename": "lz4-1889-tsan-hosted-evidence.zip",
+    "members": [
+      "README.md",
+      "VALIDATION.json",
+      "tsan-job-117694255444.log",
+      "github-monitor-receipt.json",
+      "SHA256SUMS"
+    ],
+    "full_metadata": "github-monitor-receipt.json contains all seven observations. observations[-1] includes the complete PR, all nine actual job responses including steps, checks, workflows and commit status. Canonical Git Data, the full TSan log and its audit are also preserved.",
+    "manifest_scope": "SHA256SUMS covers README.md, VALIDATION.json, the full decoded log and complete monitor receipt. It excludes itself, the ZIP and ZIP checksum file.",
+    "archive_checksum_file": "lz4-1889-tsan-hosted-evidence.zip.sha256",
+    "archive_checksum_scope": "SHA256 of the entire ZIP, stored outside the archive."
+  },
+  "preserved_payloads": {
+    "tsan-job-117694255444.log": {
+      "bytes": 299883,
+      "sha256": "a468dff927a895b094d9a42c0444a600ab49905d8552063ad8144309c218207e"
+    },
+    "github-monitor-receipt.json": {
+      "bytes": 3175922,
+      "sha256": "319edcdc5a1bb8fae77f1fee4c6e9e6a09486ac560d94e30e3f31326e44edea8"
+    }
+  },
+  "provenance": {
+    "public_material_only": true,
+    "private_automation_browser_account_state_included": false,
+    "original_receipt_unchanged": true,
+    "original_http_transport_bytes_available": false,
+    "auditor_normalization_or_redaction": false,
+    "decoded_log": {
+      "character_count": 299881,
+      "split_on_lf_array_length": 4656,
+      "bom_present": true,
+      "crlf_count": 0,
+      "replacement_character_count": 0,
+      "sha256": "a468dff927a895b094d9a42c0444a600ab49905d8552063ad8144309c218207e",
+      "utf8_bytes": 299883,
+      "hash_scope": "SHA-256 of this returned decoded Unicode log encoded as UTF-8 with its BOM and line endings preserved. Original HTTP transport bytes are unavailable; no normalization or redaction was applied by this auditor."
+    }
+  },
+  "limits": [
+    "Independent automated evidence audit, not human review.",
+    "Only the complete TSan job log was independently inspected. Other successful jobs are supported by actual job and step metadata.",
+    "The exact Clang version is not printed and is not claimed.",
+    "The source and observed merge tree define this dated result. Earlier failures and baseline evidence remain separate.",
+    "Concurrent make output is interleaved. Unique fixture names and exact assertions identify regression evidence.",
+    "Passing these tests does not establish whole-program race freedom, later status, maintainer approval, merge or reward eligibility.",
+    "No source edits, CI reruns, admission actions, external comments or remote publication occurred during monitoring or packaging.",
+    "Original HTTP transport bytes are unavailable. Hashes cover saved UTF-8 encodings of returned decoded text or saved JSON."
+  ]
+}
