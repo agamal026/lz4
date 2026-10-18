@@ -1,0 +1,22 @@
+[
+  {
+    "mode": "mt",
+    "command": "sh tests/test-lz4-multiple-legacy.sh",
+    "started_at": "2026-10-18T12:46:52.294920+00:00",
+    "finished_at": "2026-10-18T12:46:52.597471+00:00",
+    "exit_code": 64,
+    "log": "baseline-mt.log",
+    "sha256": "f42cdc52e34860ec046eef81753934abb081949457ed1e3b6c60583fa84fec0d",
+    "binary_sha256": "7e6c862d3c44998f182aed1d91713d46416bc8cf8a322df6ae1dbfc2713789ba"
+  },
+  {
+    "mode": "nomt",
+    "command": "sh tests/test-lz4-multiple-legacy.sh",
+    "started_at": "2026-10-18T12:46:52.598294+00:00",
+    "finished_at": "2026-10-18T12:46:52.898110+00:00",
+    "exit_code": 64,
+    "log": "baseline-nomt.log",
+    "sha256": "ea1ad8705d544e3e812a8438eb143d66594b237e83d757f4c4e4f75a53cc72c2",
+    "binary_sha256": "8186861f68d72fe2ce9c6f313ea61cc4a8b08f0df82bc267ab27e38711da01a4"
+  }
+]

@@ -1,0 +1,79 @@
+{
+  "observed_at": "2026-10-18T12:50:54.190293+00:00",
+  "source_commit": "e7c36223415219c0a18ea75e3fe2eb5d267ee667",
+  "input_description": "100 repetitions of ASCII legacy end marker regression plus LF, compressed using baseline -qlf; append4zero, then extra blockheader1andbyte0 for listingcase",
+  "results": [
+    {
+      "mode": "mt",
+      "case": "terminated-file-decode",
+      "exit_code": 64,
+      "stdout_sha256": "987bf8b8756c824fd083510c632ed31559f7af481626ec2e7dd1867078deb041",
+      "decoded_matches": true,
+      "stderr": "Error 64 : Decoding Failed ! Corrupted input detected ! \n",
+      "stdout": null
+    },
+    {
+      "mode": "mt",
+      "case": "terminated-stdin-decode",
+      "exit_code": 64,
+      "stdout_sha256": "987bf8b8756c824fd083510c632ed31559f7af481626ec2e7dd1867078deb041",
+      "decoded_matches": true,
+      "stderr": "Error 64 : Decoding Failed ! Corrupted input detected ! \n",
+      "stdout": null
+    },
+    {
+      "mode": "mt",
+      "case": "terminated-integrity",
+      "exit_code": 64,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decoded_matches": null,
+      "stderr": "Error 64 : Decoding Failed ! Corrupted input detected ! \n",
+      "stdout": null
+    },
+    {
+      "mode": "mt",
+      "case": "invalid-tail-list",
+      "exit_code": 0,
+      "stdout_sha256": "360e03bb5196231e58e4010157dda42bfbe141d8799c65b640c3f4da18e29cab",
+      "decoded_matches": null,
+      "stderr": "*** lz4 v1.10.1 64-bit multithread, by Yann Collet ***\n",
+      "stdout": "mt-invalid-tail.lz4(1/1)\n     Frame           Type Block Checksum           Compressed         Uncompressed     Ratio\n         1    LegacyFrame     -        -                   68                    -         -\n\n"
+    },
+    {
+      "mode": "nomt",
+      "case": "terminated-file-decode",
+      "exit_code": 64,
+      "stdout_sha256": "987bf8b8756c824fd083510c632ed31559f7af481626ec2e7dd1867078deb041",
+      "decoded_matches": true,
+      "stderr": "Error 64 : Decoding Failed ! Corrupted input detected ! \n",
+      "stdout": null
+    },
+    {
+      "mode": "nomt",
+      "case": "terminated-stdin-decode",
+      "exit_code": 64,
+      "stdout_sha256": "987bf8b8756c824fd083510c632ed31559f7af481626ec2e7dd1867078deb041",
+      "decoded_matches": true,
+      "stderr": "Error 64 : Decoding Failed ! Corrupted input detected ! \n",
+      "stdout": null
+    },
+    {
+      "mode": "nomt",
+      "case": "terminated-integrity",
+      "exit_code": 64,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decoded_matches": null,
+      "stderr": "Error 64 : Decoding Failed ! Corrupted input detected ! \n",
+      "stdout": null
+    },
+    {
+      "mode": "nomt",
+      "case": "invalid-tail-list",
+      "exit_code": 0,
+      "stdout_sha256": "7a80a1bd16d0cfcace1ead6ce7ba99c4c28a1f999e6f959764122562d4dc0a0a",
+      "decoded_matches": null,
+      "stderr": "*** lz4 v1.10.1 64-bit single-thread, by Yann Collet ***\n",
+      "stdout": "nomt-invalid-tail.lz4(1/1)\n     Frame           Type Block Checksum           Compressed         Uncompressed     Ratio\n         1    LegacyFrame     -        -                   68                    -         -\n\n"
+    }
+  ]
+}

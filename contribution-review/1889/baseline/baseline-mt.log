@@ -1,0 +1,46 @@
++ datagen -s1
++ datagen -s2 -g100K
++ datagen -s3 -g200K
++ lz4 -f -l -m tmp-lml-trash tmp-lml1 tmp-lml2 tmp-lml3
++ test -f tmp-lml1.lz4
++ test -f tmp-lml2.lz4
++ test -f tmp-lml3.lz4
++ mv tmp-lml1 tmp-lml1-orig
++ mv tmp-lml2 tmp-lml2-orig
++ mv tmp-lml3 tmp-lml3-orig
++ lz4 -d -f -m tmp-lml-trash.lz4 tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ lz4 -l -d -f -m tmp-lml-trash.lz4 tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ cmp tmp-lml1 tmp-lml1-orig
++ cmp tmp-lml2 tmp-lml2-orig
++ cmp tmp-lml3 tmp-lml3-orig
++ cat tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ rm -f tmp-lml-trash.lz4 tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4
++ lz4 -l -m tmp-lml1 tmp-lml2 tmp-lml3 -c
++ test ! -f tmp-lml1.lz4
++ cmp tmp-lml-concat1 tmp-lml-concat2
++ rm tmp-lml-concat1 tmp-lml-concat2
++ lz4 -l -f -m tmp-lml1 tmp-lml2 tmp-lml3
++ cat tmp-lml1 tmp-lml2 tmp-lml3
++ rm tmp-lml1 tmp-lml2 tmp-lml3
++ lz4 -d -m tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4 -c
++ lz4 -d -l -m tmp-lml1.lz4 tmp-lml2.lz4 tmp-lml3.lz4 -c
++ test ! -f tmp-lml1
++ cmp tmp-lml-concat1 tmp-lml-concat2
++ rm -f tmp-lml-concat2.lz4
++ lz4 -f -l -m tmp-lml-concat1 notHere-legacy tmp-lml-concat2
+notHere-legacy: No such file or directory 
++ test -f tmp-lml-concat2.lz4
++ lz4 -tm tmp-lml-concat1.lz4 tmp-lml-concat2.lz4
++ test ! -s tmp-lml-test-output
++ datagen -s4 -g25M
+
++ datagen -g1M -P100
+
++ lz4 -l -f tmp-lml-zero-orig tmp-lml-zero.lz4
+Read : 0 MiB   ==> inf%                                                                                  Compressed 27262976 bytes into 12305415 bytes ==> 45.14% 
++ printf \000\000\000\000
++ check_legacy_endmark tmp-lml-zero.lz4 tmp-lml-zero-orig
++ lz4 -d -f tmp-lml-zero.lz4 tmp-lml-zero-decoded
+Decompressed : 8 MiB  Error 64 : Decoding Failed ! Corrupted input detected ! 
++ remove
++ rm tmp-lml-concat1 tmp-lml-concat1.lz4 tmp-lml-concat2 tmp-lml-concat2.lz4 tmp-lml-test-output tmp-lml-trash tmp-lml-zero-decoded tmp-lml-zero-orig tmp-lml-zero.lz4 tmp-lml1-orig tmp-lml1.lz4 tmp-lml2-orig tmp-lml2.lz4 tmp-lml3-orig tmp-lml3.lz4
